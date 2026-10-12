@@ -15,8 +15,14 @@
     }));
   }
 
-  const updateHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
+  const homeHero = document.querySelector('.site-header--home ~ main .hero');
+  const updateHeader = () => {
+    if (!header) return;
+    const revealPoint = homeHero ? Math.max(0, homeHero.offsetHeight - header.offsetHeight) : 24;
+    header.classList.toggle('is-scrolled', window.scrollY >= revealPoint);
+  };
   updateHeader(); window.addEventListener('scroll', updateHeader, { passive: true });
+  window.addEventListener('resize', updateHeader, { passive: true });
 
   const revealItems = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {

@@ -52,15 +52,21 @@ h3 { font-size: 2rem; }
 .text-link:hover { opacity: .66; }
 .text-link--light { color: var(--cream); }
 
-.site-header { position: absolute; z-index: 10; top: 0; right: 0; left: 0; display: flex; align-items: center; justify-content: space-between; height: 5.7rem; padding: 0 max(1.5rem, calc((100vw - var(--wrap)) / 2)); background: #000; color: var(--cream); transition: background .25s, box-shadow .25s; }
+.site-header { position: absolute; z-index: 10; top: 0; right: 0; left: 0; display: flex; align-items: center; justify-content: space-between; height: 5.7rem; padding: 0 max(1.5rem, calc((100vw - var(--wrap)) / 2)); background: #000; color: var(--cream); transition: background .25s, box-shadow .25s, opacity .42s ease, transform .42s ease, visibility .42s; }
 .site-header.is-scrolled { position: fixed; background: #000; box-shadow: 0 1px 0 rgba(255, 255, 255, .1); backdrop-filter: blur(10px); }
+.site-header--home { visibility: hidden; opacity: 0; pointer-events: none; transform: translateY(-.75rem); }
+.site-header--home.is-scrolled { visibility: visible; opacity: 1; pointer-events: auto; transform: none; }
 .brand { display: block; width: 178px; height: 52px; overflow: hidden; }
-.brand img { width: 100%; height: 100%; object-fit: cover; object-position: center 52%; }
+.brand img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
 .site-nav { display: flex; align-items: center; gap: 1.6rem; font-size: .73rem; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; }
 .site-nav > a:not(.button) { transition: opacity .2s; }
 .site-nav > a:not(.button):hover { opacity: .65; }
 .site-nav > a[href="carte.html"] { color: var(--gold-glint); }
 .site-nav__actions { display: flex; align-items: center; gap: .65rem; }
+.site-nav__event-button { border-color: rgba(13, 52, 66, .82); background: var(--cream); box-shadow: inset 0 0 0 3px var(--cream), inset 0 0 0 4px rgba(13, 52, 66, .66), 0 0 0 3px rgba(244, 239, 228, .18); color: var(--petrol); }
+.site-nav__event-button::after { border-color: rgba(13, 52, 66, .28); }
+.site-nav__event-button:hover { background: #fffaf0; color: var(--petrol); box-shadow: inset 0 0 0 3px #fffaf0, inset 0 0 0 4px var(--petrol), 0 0 0 4px rgba(198, 165, 106, .36); }
+.site-nav__event-button:hover::after { border-color: rgba(13, 52, 66, .52); }
 .menu-toggle { display: none; padding: .7rem; border: 0; background: none; color: inherit; }
 .menu-toggle > span:not(.sr-only) { display: block; width: 1.65rem; height: 1px; margin: .38rem; background: currentColor; }
 

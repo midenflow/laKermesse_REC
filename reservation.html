@@ -10,10 +10,23 @@
 </head>
 <body class="booking-page">
   <a class="skip-link" href="#booking-panel">Aller à la réservation</a>
+  <header class="site-header" data-header>
+    <a class="brand" href="index.html" aria-label="La Kermesse — accueil"><img src="assets/images/la-kermesse-logo.svg" alt="La Kermesse"></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu"><span></span><span></span><span class="sr-only">Ouvrir le menu</span></button>
+    <nav id="site-menu" class="site-nav" aria-label="Navigation principale">
+      <a href="index.html#jardin">Le Jardin</a>
+      <a href="index.html#evenements">Événements</a>
+      <a href="index.html#infos">Infos</a>
+      <a href="carte.html">La Carte</a>
+      <div class="site-nav__actions">
+        <a class="button button--nav site-nav__event-button" href="reservation.html?mode=privatisation">Organiser un événement <span aria-hidden="true">→</span></a>
+        <a class="button button--nav" href="reservation.html">Réserver une table <span aria-hidden="true">↗</span></a>
+      </div>
+    </nav>
+  </header>
   <main class="booking-shell">
-    <a class="booking-back" href="index.html">← Retour à La Kermesse</a>
     <section id="booking-panel" class="booking-panel" aria-labelledby="booking-title">
-      <div class="booking-panel__top"><img class="booking-logo" src="assets/images/la-kermesse-wordmark-transparent.png" alt="La Kermesse"><p class="eyebrow">121 rue de Vern · Rennes</p><h1 id="booking-title">On vous garde une table ?</h1><p class="booking-lead">Choisissez votre moment à La Kermesse.</p></div>
+      <div class="booking-panel__top"><img class="booking-logo" src="assets/images/la-kermesse-logo.svg" alt="La Kermesse"><p class="eyebrow">121 rue de Vern · Rennes</p><h1 id="booking-title">On vous garde une table ?</h1><p class="booking-lead">Choisissez votre moment à La Kermesse.</p></div>
       <p class="demo-notice" data-demo-notice hidden>Prototype de réservation — les réglages d’exploitation sont à confirmer avec l’équipe.</p>
       <ol class="booking-progress" aria-label="Progression de réservation"><li class="is-current" data-progress="1"><span>1</span>Votre table</li><li data-progress="2"><span>2</span>Vos coordonnées</li><li data-progress="3"><span>3</span>Votre demande</li></ol>
       <div class="booking-error" data-booking-error role="alert" hidden></div>
@@ -62,6 +75,7 @@
   </main>
   <script src="assets/js/jquery-3.7.1.min.js"></script>
   <script src="assets/js/emailjs.min.js"></script>
+  <script src="assets/js/site.js"></script>
   <script src="assets/js/booking.js"></script>
 </body>
 </html>

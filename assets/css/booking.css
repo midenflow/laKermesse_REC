@@ -1,13 +1,13 @@
 :root { --panel: #0d3442; --panel-deep: #06171f; --line-booking: rgba(244, 239, 228, .28); }
 
 .booking-page { min-height: 100vh; background: var(--night); color: var(--cream); }
-.booking-shell { position: relative; isolation: isolate; display: grid; place-items: center; min-height: 100vh; overflow: hidden; padding: 1.35rem 1.25rem; background: #06171f; }
+.booking-page .site-header { position: fixed; }
+.booking-shell { position: relative; isolation: isolate; display: grid; place-items: center; min-height: 100vh; overflow: hidden; padding: calc(5.7rem + 1.35rem) 1.25rem 1.35rem; background: #06171f; }
 .booking-shell::before { content: ""; position: absolute; z-index: 0; inset: -18px; background: linear-gradient(110deg, rgba(6, 23, 31, .8), rgba(6, 23, 31, .58)), url("../images/14_garden_center_canopy.png") center / cover no-repeat; filter: blur(10px); transform: scale(1.03); pointer-events: none; }
-.booking-panel, .booking-back { position: relative; z-index: 1; }
-.booking-back { position: absolute; top: 1.5rem; left: clamp(1.25rem, 4vw, 4rem); font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.booking-panel { position: relative; z-index: 1; }
 .booking-panel { width: min(100%, 760px); padding: clamp(1.25rem, 2.4vw, 2rem); border: 1px solid var(--line-booking); border-radius: var(--radius-md); background: rgba(13, 52, 66, .93); box-shadow: 0 24px 70px rgba(0, 0, 0, .48); }
 .booking-panel__top { text-align: center; }
-.booking-logo { width: min(260px, 70%); height: 52px; margin: 0 auto .4rem; object-fit: cover; object-position: center 52%; }
+.booking-logo { width: min(260px, 70%); height: 52px; margin: 0 auto .4rem; object-fit: contain; object-position: center; }
 .booking-panel h1 { margin: .1rem 0 .35rem; font-size: clamp(2.2rem, 3.6vw, 3.4rem); line-height: 1.06; }
 .booking-lead { margin: 0; font-size: .95rem; }
 .demo-notice { margin: .7rem 0 0; padding: .75rem 1rem; border-left: 2px solid var(--gold); background: rgba(6, 23, 31, .32); font-size: .78rem; }
@@ -78,9 +78,8 @@
 @keyframes privatisation-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
 @media (max-width: 600px) {
-  .booking-shell { display: block; min-height: 100svh; padding: 4.5rem 0 0; }
-  .booking-back { top: 1.3rem; }
-  .booking-panel { min-height: calc(100svh - 4.5rem); padding: 1.25rem 1rem; border-inline: 0; }
+  .booking-shell { display: block; min-height: 100svh; padding: 4.9rem 0 0; }
+  .booking-panel { min-height: calc(100svh - 4.9rem); padding: 1.25rem 1rem; border-inline: 0; }
   .booking-logo { height: 46px; }
   .booking-panel h1 { font-size: 2.2rem; }
   .booking-progress { gap: .4rem; margin: 1rem 0; }

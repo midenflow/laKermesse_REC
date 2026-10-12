@@ -16,15 +16,17 @@
 <body class="carte-page">
   <a class="skip-link" href="#carte-catalogue">Aller à la carte</a>
   <header class="site-header" data-header>
-    <a class="brand" href="index.html" aria-label="La Kermesse — accueil"><img src="assets/images/la-kermesse-wordmark-transparent.png" alt="La Kermesse"></a>
+    <a class="brand" href="index.html" aria-label="La Kermesse — accueil"><img src="assets/images/la-kermesse-logo.svg" alt="La Kermesse"></a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu"><span></span><span></span><span class="sr-only">Ouvrir le menu</span></button>
     <nav id="site-menu" class="site-nav" aria-label="Navigation principale">
-      <a href="index.html#histoire">La Kermesse</a>
       <a href="index.html#jardin">Le Jardin</a>
-      <a href="carte.html" aria-current="page">La Carte</a>
       <a href="index.html#evenements">Événements</a>
       <a href="index.html#infos">Infos</a>
-      <a class="button button--nav" href="reservation.html">Réserver <span aria-hidden="true">↗</span></a>
+      <a href="carte.html" aria-current="page">La Carte</a>
+      <div class="site-nav__actions">
+        <a class="button button--nav site-nav__event-button" href="reservation.html?mode=privatisation">Organiser un événement <span aria-hidden="true">→</span></a>
+        <a class="button button--nav" href="reservation.html">Réserver une table <span aria-hidden="true">↗</span></a>
+      </div>
     </nav>
   </header>
 
@@ -35,11 +37,11 @@
       <div class="carte-tabs-wrap">
         <div class="carte-tabs" role="tablist" aria-label="Catégories de la carte" data-carte-tabs></div>
       </div>
-      <div id="carte-panel" class="carte-panel" role="tabpanel" aria-labelledby="carte-tab-entrees" data-carte-panel></div>
+      <div id="carte-panel" class="carte-panel" role="tabpanel" aria-labelledby="carte-tab-pizza" data-carte-panel></div>
     </section>
   </main>
 
-  <footer class="site-footer"><div class="wrap"><a class="brand brand--footer" href="index.html" aria-label="La Kermesse — accueil"><img src="assets/images/la-kermesse-wordmark-transparent.png" alt="La Kermesse"></a><p>©2027 La-Kermesse-Rennes - All rights reserved. &nbsp; By : <a href="https://midenflow.com" target="_blank" rel="noopener">midenflow.com</a></p></div></footer>
+  <footer class="site-footer"><div class="wrap"><a class="brand brand--footer" href="index.html" aria-label="La Kermesse — accueil"><img src="assets/images/la-kermesse-logo.svg" alt="La Kermesse"></a><p>©2027 La-Kermesse-Rennes - All rights reserved. &nbsp; By : <a href="https://midenflow.com" target="_blank" rel="noopener">midenflow.com</a></p></div></footer>
   <script src="assets/data/menu-data.js"></script>
   <script src="assets/js/site.js"></script>
   <script src="assets/js/carte.js"></script>

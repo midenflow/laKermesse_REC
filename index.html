@@ -13,8 +13,8 @@
   <link rel="icon" type="image/png" href="assets/images/la-kermesse-wordmark-transparent.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=homepage-sidebar-desktop">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Restaurant","name":"La Kermesse","description":"Bar-restaurant avec jardin et terrasse à Rennes.","address":{"@type":"PostalAddress","streetAddress":"121 Rue de Vern","postalCode":"35200","addressLocality":"Rennes","addressCountry":"FR"},"telephone":"+33982684417","sameAs":["https://www.instagram.com/la_kermesse_rennes/?hl=fr"],"servesCuisine":"Cuisine de saison, tapas"}
   </script>
@@ -25,12 +25,14 @@
     <a class="brand" href="#top" aria-label="La Kermesse — accueil"><img src="assets/images/la-kermesse-wordmark-transparent.png" alt="La Kermesse"></a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu"><span></span><span></span><span class="sr-only">Ouvrir le menu</span></button>
     <nav id="site-menu" class="site-nav" aria-label="Navigation principale">
-      <a href="#histoire">La Kermesse</a>
       <a href="#jardin">Le Jardin</a>
-      <a href="#carte">La Carte</a>
       <a href="#evenements">Événements</a>
       <a href="#infos">Infos</a>
-      <a class="button button--nav" href="reservation.html">Réserver <span aria-hidden="true">↗</span></a>
+      <a href="carte.html">La Carte</a>
+      <div class="site-nav__actions">
+        <a class="button button--nav site-nav__event-button" href="reservation.html?mode=privatisation">Organiser un événement <span aria-hidden="true">→</span></a>
+        <a class="button button--nav" href="reservation.html">Réserver une table <span aria-hidden="true">↗</span></a>
+      </div>
     </nav>
   </header>
 
@@ -53,15 +55,16 @@
       <p class="hero__scroll" aria-hidden="true">Défiler <span></span></p>
     </section>
 
-    <section id="histoire" class="story section wrap">
-      <div class="story__mark reveal" aria-hidden="true">01</div>
-      <div class="story__body reveal">
-        <p class="eyebrow">L’esprit kermesse</p>
-        <h2>Un lieu de vie derrière la rue de Vern.</h2>
-      </div>
-      <div class="story__copy reveal">
-        <p>Installée à Rennes depuis 2023, La Kermesse cache derrière sa façade un grand jardin arboré où l’on vient déjeuner, partager des tapas, boire un verre et profiter des rendez-vous de la maison.</p>
-        <p class="small-copy">Une adresse de quartier, avec juste ce qu’il faut d’évasion.</p>
+    <section id="histoire" class="story" data-story aria-label="L’esprit Kermesse">
+      <div class="story__sticky">
+        <p class="sr-only">À propos de la saveur que laissent les moments partagés. À propos de notre jardin, de nos tablées, de nos verres et de nos soirs. À propos de notre musique. De nos nuits. De notre manière de recevoir. À propos de Rennes, des saisons, et du plaisir d’être ensemble. Bienvenue à La Kermesse.</p>
+        <div class="story__lines" aria-hidden="true">
+          <p class="story__line">À propos de la saveur que laissent les moments partagés.</p>
+          <p class="story__line">À propos de notre jardin, de nos tablées, de nos verres et de nos soirs.</p>
+          <p class="story__line">À propos de notre musique. De nos nuits. De notre manière de recevoir.</p>
+          <p class="story__line">À propos de Rennes, des saisons, et du plaisir d’être ensemble.</p>
+          <p class="story__line story__line--welcome">Bienvenue à La Kermesse.</p>
+        </div>
       </div>
     </section>
 
@@ -93,9 +96,8 @@
         <article class="moment reveal"><span>02</span><h3>Le soir</h3><p>Quand le jardin prend une autre lumière, on prolonge la table autour de tapas et de verres choisis.</p></article>
         <article class="moment reveal"><span>03</span><h3>À partager</h3><p>Quelques assiettes, de la place pour tout le monde, et aucune raison de se presser.</p></article>
       </div>
-      <div class="menu-preview wrap reveal" data-menu>
-        <div class="menu-preview__heading"><p class="eyebrow">La carte</p><h3>Déjeuner &amp; pizzas</h3><p class="menu-note">Une carte claire, conçue pour évoluer avec les produits et les saisons.</p></div>
-        <section class="lunch-menu" aria-labelledby="lunch-title"><div class="menu-section__title"><p class="eyebrow">Déjeuner</p><h4 id="lunch-title">La formule du midi</h4><p>La carte évolue au rythme des produits et des saisons.</p></div><div class="menu-preview__pricing" data-lunch-prices></div><div class="menu-columns" data-lunch-columns></div></section>
+      <div class="wrap table-section__cta reveal">
+        <a class="menu-link-button" href="carte.html">Découvrez notre carte <span aria-hidden="true">↗</span></a>
       </div>
       <section class="pizza-showcase" data-pizza-showcase aria-labelledby="pizza-title">
         <div class="pizza-showcase__sticky">
@@ -152,6 +154,6 @@
   </main>
   <footer class="site-footer"><div class="wrap"><a class="brand brand--footer" href="#top" aria-label="La Kermesse — haut de page"><img src="assets/images/la-kermesse-wordmark-transparent.png" alt="La Kermesse"></a><p>©2027 La-Kermesse-Rennes - All rights reserved. &nbsp; By : <a href="https://midenflow.com" target="_blank" rel="noopener">midenflow.com</a></p></div></footer>
   <script src="assets/data/menu-data.js"></script>
-  <script src="assets/js/site.js"></script>
+  <script src="assets/js/site.js?v=homepage-menu-link"></script>
 </body>
 </html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Carte | La Kermesse Rennes</title>
+  <meta name="description" content="La carte de La Kermesse à Rennes : déjeuner, pizzas et desserts au fil des saisons.">
+  <meta name="theme-color" content="#120b06">
+  <link rel="icon" type="image/png" href="assets/images/la-kermesse-wordmark-transparent.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/carte.css">
+</head>
+<body class="carte-page">
+  <a class="skip-link" href="#carte-catalogue">Aller à la carte</a>
+  <header class="site-header" data-header>
+    <a class="brand" href="index.html" aria-label="La Kermesse — accueil"><img src="assets/images/la-kermesse-wordmark-transparent.png" alt="La Kermesse"></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu"><span></span><span></span><span class="sr-only">Ouvrir le menu</span></button>
+    <nav id="site-menu" class="site-nav" aria-label="Navigation principale">
+      <a href="index.html#histoire">La Kermesse</a>
+      <a href="index.html#jardin">Le Jardin</a>
+      <a href="carte.html" aria-current="page">La Carte</a>
+      <a href="index.html#evenements">Événements</a>
+      <a href="index.html#infos">Infos</a>
+      <a class="button button--nav" href="reservation.html">Réserver <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="main" class="carte-main" data-carte-app aria-busy="true">
+    <section class="carte-intro wrap" data-carte-intro></section>
+    <section class="carte-formula wrap" aria-labelledby="carte-formula-title" data-carte-formula></section>
+    <section id="carte-catalogue" class="carte-catalogue wrap" aria-label="Menu La Kermesse">
+      <div class="carte-tabs-wrap">
+        <div class="carte-tabs" role="tablist" aria-label="Catégories de la carte" data-carte-tabs></div>
+      </div>
+      <div id="carte-panel" class="carte-panel" role="tabpanel" aria-labelledby="carte-tab-entrees" data-carte-panel></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap"><a class="brand brand--footer" href="index.html" aria-label="La Kermesse — accueil"><img src="assets/images/la-kermesse-wordmark-transparent.png" alt="La Kermesse"></a><p>©2027 La-Kermesse-Rennes - All rights reserved. &nbsp; By : <a href="https://midenflow.com" target="_blank" rel="noopener">midenflow.com</a></p></div></footer>
+  <script src="assets/data/menu-data.js"></script>
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/carte.js"></script>
+</body>
+</html>

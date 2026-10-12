@@ -26,9 +26,91 @@
     revealItems.forEach(item => observer.observe(item));
   } else revealItems.forEach(item => item.classList.add('is-visible'));
 
+  const story = document.querySelector('[data-story]');
+  const storyLines = [...(story?.querySelectorAll('.story__line') || [])];
+  const storyReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+
+  if (story && storyLines.length && storyReducedMotion) {
+    const ghostOpacity = .15;
+    const revealWindow = .06;
+    const damping = .14;
+    const storyCharacters = [];
+    let storyFrame;
+    let targetStoryProgress = 0;
+    let renderedStoryProgress = 0;
+    let storyStart = 0;
+    let storyScrollDistance = 1;
+
+    storyLines.forEach(line => {
+      const text = line.textContent;
+      line.textContent = '';
+
+      [...text].forEach(character => {
+        const span = document.createElement('span');
+        span.className = 'story__char';
+        span.textContent = character;
+        line.append(span);
+        storyCharacters.push(span);
+      });
+    });
+
+    const clampStoryProgress = value => Math.min(1, Math.max(0, value));
+    const smoothstep = value => value * value * (3 - (2 * value));
+    const recalculateStoryGeometry = () => {
+      const bounds = story.getBoundingClientRect();
+      storyStart = bounds.top + window.scrollY;
+      storyScrollDistance = Math.max(1, story.offsetHeight - window.innerHeight);
+    };
+    const updateStoryTarget = () => {
+      if (storyReducedMotion.matches) {
+        targetStoryProgress = 1;
+        return;
+      }
+
+      const rawProgress = clampStoryProgress((window.scrollY - storyStart) / storyScrollDistance);
+      targetStoryProgress = clampStoryProgress((rawProgress - .06) / .86);
+    };
+    const renderStory = () => {
+      storyFrame = undefined;
+      renderedStoryProgress += (targetStoryProgress - renderedStoryProgress) * damping;
+      if (Math.abs(targetStoryProgress - renderedStoryProgress) < .001) {
+        renderedStoryProgress = targetStoryProgress;
+      }
+
+      const characterCount = Math.max(1, storyCharacters.length - 1);
+      storyCharacters.forEach((character, index) => {
+        const start = (index / characterCount) * (1 - revealWindow);
+        const localProgress = clampStoryProgress((renderedStoryProgress - start) / revealWindow);
+        const opacity = ghostOpacity + ((1 - ghostOpacity) * smoothstep(localProgress));
+        character.style.opacity = opacity.toFixed(3);
+      });
+
+      if (Math.abs(targetStoryProgress - renderedStoryProgress) >= .001) {
+        storyFrame = window.requestAnimationFrame(renderStory);
+      }
+    };
+    const queueStoryRender = () => {
+      if (!storyFrame) storyFrame = window.requestAnimationFrame(renderStory);
+    };
+    const handleStoryScroll = () => {
+      updateStoryTarget();
+      queueStoryRender();
+    };
+    const handleStoryResize = () => {
+      recalculateStoryGeometry();
+      updateStoryTarget();
+      queueStoryRender();
+    };
+
+    window.addEventListener('scroll', handleStoryScroll, { passive: true });
+    window.addEventListener('resize', handleStoryResize, { passive: true });
+    storyReducedMotion.addEventListener?.('change', handleStoryResize);
+    window.addEventListener('load', handleStoryResize, { once: true });
+    document.fonts?.ready.then(handleStoryResize);
+    handleStoryResize();
+  }
+
   const menuData = window.laKermesseMenu;
-  const priceTarget = document.querySelector('[data-lunch-prices]');
-  const lunchTarget = document.querySelector('[data-lunch-columns]');
   const pizzaTarget = document.querySelector('[data-pizza-list]');
   const createPriceBadge = price => {
     const badge = document.createElement('span');
@@ -55,23 +137,7 @@
     badge.append(svg, priceText);
     return badge;
   };
-  if (menuData && priceTarget && lunchTarget && pizzaTarget) {
-    menuData.lunch.prices.forEach(({ price, label }) => {
-      const item = document.createElement('p');
-      const amount = document.createElement('strong');
-      amount.textContent = price;
-      item.append(amount, ` ${label}`);
-      priceTarget.append(item);
-    });
-    menuData.lunch.sections.forEach(({ title, items }) => {
-      const group = document.createElement('div');
-      const heading = document.createElement('h4');
-      const list = document.createElement('ul');
-      heading.textContent = title;
-      items.forEach(text => { const entry = document.createElement('li'); entry.textContent = text; list.append(entry); });
-      group.append(heading, list);
-      lunchTarget.append(group);
-    });
+  if (menuData && pizzaTarget) {
     menuData.pizzas.forEach(({ name, price, ingredients, image }) => {
       const item = document.createElement('article');
       const title = document.createElement('h4');

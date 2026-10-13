@@ -1,0 +1,16 @@
+RewriteEngine On
+
+# Block directory access EXCEPT homepage
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} !^/$
+RewriteRule ^.*$ / [L,R=302]
+
+# If file does NOT exist
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route clean URLs to .php
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# Redirect 404 to homepage
+ErrorDocument 404 /

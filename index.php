@@ -9,12 +9,17 @@
   <meta property="og:description" content="Un bistrot de quartier, un grand jardin caché et des soirées qui se prolongent.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/images/01_hero_sunset_people.png">
-  <meta name="theme-color" content="#06171f">
-  <link rel="icon" type="image/png" href="assets/images/la-kermesse-wordmark-transparent.png">
+  <meta name="theme-color" content="#06171f">	
+
+  <link rel="icon" href="./assets/images/la-kermesse-wordmark-transparent.png" sizes="32x32">
+  <link rel="icon" href="./assets/images/la-kermesse-wordmark-transparent.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="./assets/images/la-kermesse-wordmark-transparent.png">
+  <meta name="msapplication-TileImage" content="./assets/images/la-kermesse-wordmark-transparent.png"> 
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-  
+
   <!-- <link rel="stylesheet" href="assets/css/styles.css"> -->   
   <style>
 :root {

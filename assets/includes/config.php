@@ -11,7 +11,7 @@ $author_website  = 'https://midenflow.com';
 define('SMTP_HOST',   'smtp.gmail.com');
 define('SMTP_PORT',   587);
 define('SMTP_USER',   'midenflow.team@gmail.com');
-define('SMTP_PASS',   'zwwmtmothifplurf');
+define('SMTP_PASS',   'aaaaaa');
 define('SMTP_SECURE', 'tls');                        // tls (587) or ssl (465)
 
 // ============================================
@@ -76,4 +76,21 @@ function setupSMTP(PHPMailer $mail): void
     $mail->Port       = SMTP_PORT;
     $mail->CharSet    = 'UTF-8';
     $mail->isHTML(true);
+}
+
+// ============================================
+// Session & CSRF
+// ============================================
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+function csrf_field(): string
+{
+    return '<input type="hidden" name="csrf" value="'
+         . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') . '">';
 }

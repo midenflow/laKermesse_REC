@@ -1,8 +1,5 @@
 <?php
-session_start();
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+require_once __DIR__ . '/assets/includes/config.php';
 ?>
 <!doctype html>
 <html lang="fr">
@@ -12,10 +9,11 @@ if (empty($_SESSION['csrf_token'])) {
   <meta name="description" content="Organisez votre événement à La Kermesse, 121 rue de Vern à Rennes.">
   <title>Organiser un événement | La Kermesse Rennes</title>
 
-  <link rel="icon" href="./assets/images/la-kermesse-wordmark-transparent.png" sizes="32x32">
-  <link rel="icon" href="./assets/images/la-kermesse-wordmark-transparent.png" sizes="192x192">
-  <link rel="apple-touch-icon" href="./assets/images/la-kermesse-wordmark-transparent.png">
-  <meta name="msapplication-TileImage" content="./assets/images/la-kermesse-wordmark-transparent.png">
+  <link rel="icon" type="image/x-icon" href="./assets/images/la_kermesse_duck.svg">
+  <link rel="icon" href="./assets/images/la_kermesse_duck.svg" sizes="32x32">
+  <link rel="icon" href="./assets/images/la_kermesse_duck.svg" sizes="192x192">
+  <link rel="apple-touch-icon" href="./assets/images/la_kermesse_duck.svg">
+  <meta name="msapplication-TileImage" content="./assets/images/la_kermesse_duck.svg"> 
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

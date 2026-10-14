@@ -10,11 +10,12 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/images/01_hero_sunset_people.png">
   <meta name="theme-color" content="#06171f">	
-
-  <link rel="icon" href="./assets/images/la-kermesse-wordmark-transparent.png" sizes="32x32">
-  <link rel="icon" href="./assets/images/la-kermesse-wordmark-transparent.png" sizes="192x192">
-  <link rel="apple-touch-icon" href="./assets/images/la-kermesse-wordmark-transparent.png">
-  <meta name="msapplication-TileImage" content="./assets/images/la-kermesse-wordmark-transparent.png"> 
+  
+  <link rel="icon" type="image/x-icon" href="./assets/images/la_kermesse_duck.svg">
+  <link rel="icon" href="./assets/images/la_kermesse_duck.svg" sizes="32x32">
+  <link rel="icon" href="./assets/images/la_kermesse_duck.svg" sizes="192x192">
+  <link rel="apple-touch-icon" href="./assets/images/la_kermesse_duck.svg">
+  <meta name="msapplication-TileImage" content="./assets/images/la_kermesse_duck.svg"> 
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

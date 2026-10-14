@@ -1,0 +1,29 @@
+/*
+  EDIT THIS FILE to update lunch dishes, pizza names, ingredients and prices.
+  It contains content only; assets/js/site.js renders this data on the homepage.
+*/
+window.laKermesseMenu = {
+  lunch: {
+    prices: [
+      { price: "13 €", label: "Plat seul" },
+      { price: "17 €", label: "Entrée + plat ou plat + dessert" },
+      { price: "20 €", label: "Entrée + plat + dessert" }
+    ],
+    sections: [
+      { title: "Entrées", items: ["Œufs mayonnaise", "Tranche de pâté maison", "Céleri rémoulade, chiffonnade de jambon cru", "Rillettes de poulet aux épices douces"] },
+      { title: "Plats", items: ["Grillade de porc, sauce aux champignons, purée, carottes rôties", "Lasagne au thon, petits légumes, salade", "Salade de légumes grillés, feta, olives noires"] },
+      { title: "Desserts", items: ["Mousse au chocolat", "Marbré vanille-chocolat", "Cheesecake banane", "Clafoutis aux pommes"] }
+    ]
+  },
+  pizzas: [
+    { name: "La sans chichi", price: "11,50 €", ingredients: "Base tomate, mozzarella, origan", image: "assets/images/pizzas/La sans chichi.png" },
+    { name: "La Reine de la Vern", price: "12,50 €", ingredients: "Base tomate, mozzarella, jambon blanc, origan", image: "assets/images/pizzas/La rue de la Vern.png" },
+    { name: "La Kermesse Royale", price: "13 €", ingredients: "Base tomate, mozzarella, jambon blanc, champignons frais, origan", image: "assets/images/pizzas/La Kermesse Royale.png" },
+    { name: "Les 4 Chevaux", price: "14,50 €", ingredients: "Base crème, mozzarella, gorgonzola, chèvre, copeaux de parmesan", image: "assets/images/pizzas/La 4 Chevaux.png" },
+    { name: "La Véggie land", price: "14 €", ingredients: "Base tomate, mozzarella, légumes de saison, pesto, champignons, roquette", image: "assets/images/pizzas/La Véggie land.png" },
+    { name: "La Bolo", price: "13 €", ingredients: "Base tomate, mozzarella, viande hachée, tomates, oignons", image: "assets/images/pizzas/La Bolo.png" },
+    { name: "La Montagne Russe", price: "14,50 €", ingredients: "Base crème, mozzarella, reblochon, pommes de terre, lardons, oignons", image: "assets/images/pizzas/La Montagne Russe.png" },
+    { name: "La Mimi Ferme", price: "12,50 €", ingredients: "Base crème, chèvre frais, miel", image: "assets/images/pizzas/La Mimi Ferme.png" },
+    { name: "La Chicken Run", price: "13 €", ingredients: "Base tomate, tenders de poulet maison, oignons frits, sauce barbecue", image: "assets/images/pizzas/La Chicken Run.png" }
+  ]
+};

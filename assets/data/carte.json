@@ -1,0 +1,53 @@
+{
+  "intro": {
+    "title": "MENU"
+  },
+  "formula": {
+    "eyebrow": "Déjeuner",
+    "title": "La formule du midi",
+    "description": "La carte évolue au rythme des produits et des saisons.",
+    "prices": [
+      { "price": "13 €", "label": "Plat seul" },
+      { "price": "17 €", "label": "Entrée + plat ou plat + dessert" },
+      { "price": "20 €", "label": "Entrée + plat + dessert" }
+    ]
+  },
+  "categories": [
+    {
+      "id": "entrees",
+      "label": "Entrées",
+      "items": [
+        { "name": "Œufs mayonnaise", "description": "Mayonnaise", "image": "assets/images/menu/entrees/Œufs mayonnaise.png", "active": true },
+        { "name": "Tranche de pâté maison", "description": "Maison", "image": "assets/images/menu/entrees/Tranche de pâté maison.png", "imageScale": 1.16, "active": true },
+        { "name": "Céleri rémoulade", "description": "Chiffonnade de jambon cru", "image": "assets/images/menu/entrees/Céleri rémoulade, chiffonnade de jambon cru.png", "active": true },
+        { "name": "Rillettes de poulet", "description": "Aux épices douces", "image": "assets/images/menu/entrees/Rillettes de poulet aux épices douces.png", "active": true }
+      ]
+    },
+    {
+      "id": "plats",
+      "label": "Plats",
+      "items": [
+        { "name": "Grillade de porc", "description": "Sauce aux champignons, purée, carottes rôties", "image": "assets/images/menu/plats/Grillade de porc, sauce aux champignons, purée, carottes rôties.png", "active": true },
+        { "name": "Lasagne au thon", "description": "Petits légumes, salade", "image": "assets/images/menu/plats/Lasagne au thon, petits légumes, salade.png", "imageScale": 1.12, "active": true },
+        { "name": "Salade de légumes grillés", "description": "Feta, olives noires", "image": "assets/images/menu/plats/Salade de légumes grillés, feta, olives noires.png", "active": true }
+      ]
+    },
+    { "id": "pizza", "label": "Pizza", "source": "homepagePizzas" },
+    {
+      "id": "desserts",
+      "label": "Desserts",
+      "items": [
+        { "name": "Mousse au chocolat", "description": "Chocolat", "image": "assets/images/menu/desserts/Mousse au chocolat.png", "imageScale": 0.82, "active": true },
+        { "name": "Marbré", "description": "Vanille-chocolat", "image": "assets/images/menu/desserts/Marbré vanille-chocolat.png", "imageScale": 0.82, "active": true },
+        { "name": "Cheesecake", "description": "Banane", "image": "assets/images/menu/desserts/Cheesecake banane.png", "imageScale": 0.82, "active": true },
+        { "name": "Clafoutis", "description": "Aux pommes", "image": "assets/images/menu/desserts/Clafoutis aux pommes.png", "imageScale": 0.82, "active": true }
+      ]
+    },
+    {
+      "id": "boissons",
+      "label": "Boissons",
+      "items": [],
+      "emptyState": "Sélection à venir"
+    }
+  ]
+}

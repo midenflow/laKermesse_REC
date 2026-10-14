@@ -11,7 +11,7 @@ $author_website  = 'https://midenflow.com';
 define('SMTP_HOST',   'smtp.gmail.com');
 define('SMTP_PORT',   587);
 define('SMTP_USER',   'midenflow.team@gmail.com');
-define('SMTP_PASS',   'aaaaaa');
+define('SMTP_PASS',   'XXXXXXX');
 define('SMTP_SECURE', 'tls');                        // tls (587) or ssl (465)
 
 // ============================================

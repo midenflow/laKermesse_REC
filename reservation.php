@@ -483,6 +483,7 @@ require_once __DIR__ . '/assets/includes/config.php';
   .reference strong {
     font-family: var(--serif);
     font-size: 1.6rem; font-weight: 400;
+	color: var(--gold);
   }
 
   /* ---------- Honeypot ---------- */
@@ -619,6 +620,11 @@ require_once __DIR__ . '/assets/includes/config.php';
     justify-content: center;
     align-items: center;
   }
+  .result-note {
+  margin-top: .4rem;
+  font-size: .92rem;
+  opacity: .85;
+}
   </style>
 </head>
 <body class="booking-page">
@@ -836,22 +842,27 @@ require_once __DIR__ . '/assets/includes/config.php';
         </section>
       </form>
 
-      <!-- ============ ÉTAPE 3 ============ -->
-      <section class="step result" data-step="3" hidden aria-live="polite" aria-labelledby="result-title">
-        <p class="eyebrow">Votre demande est enregistrée</p>
-        <h2 id="result-title">Merci&nbsp;!</h2>
-        <p id="result-copy"></p>
+      <!-- ============ ÉTAPE 3 / Confirmation ============ -->
+	  
+	  <section class="step result" data-step="3" hidden aria-live="polite" aria-labelledby="result-title">
+	  <h2 tabindex="-1" id="result-title">Votre réservation est confirmée.</h2>
+	  <p id="result-copy">Un mail de confirmation vient de vous être envoyé.</p>
+	  <p class="result-note">
+		Vous ne le trouvez pas&nbsp;? Pensez à vérifier votre dossier
+		<strong>courriers indésirables (spam)</strong>.
+	  </p>
 
-        <div class="reference">
-          <span>Référence</span>
-          <strong id="result-reference">—</strong>
-        </div>
+	  <div class="reference">
+		<span>Référence</span>
+		<strong id="result-reference">—</strong>
+	  </div>
 
-        <p class="phone-help">
-          Une question ? <a href="tel:+33982684417">09 82 68 44 17</a>
-        </p>
-        <a class="btn" href="/">Retour au site</a>
-      </section>
+	  <p class="phone-help">
+		Une question&nbsp;? <a href="tel:+33982684417">09 82 68 44 17</a>
+	  </p>
+	  <a class="btn" href="/">Retour au site</a>
+	</section>
+
 	  <br>
 	  <p class="panel__head eyebrow midenflow-copyright">
 	  <span>Système de réservation par</span>

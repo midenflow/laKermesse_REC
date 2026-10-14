@@ -516,7 +516,7 @@ require_once __DIR__ . '/assets/includes/config.php';
   }
   .reference strong {
     font-family: var(--serif);
-    font-size: 1.6rem; font-weight: 400;
+    font-size: 1.6rem; font-weight: 400;color: var(--gold);
   }
 
   /* ---------- Honeypot ---------- */
@@ -668,7 +668,7 @@ require_once __DIR__ . '/assets/includes/config.php';
         <img class="panel__logo" src="assets/images/la-kermesse-logo.svg" alt="La Kermesse" width="260" height="52">
         <p class="eyebrow-cream">121 rue de Vern, Rennes</p>
         <h1 id="event-title">Organiser un événement ?</h1>
-        <p class="panel__lead">Anniversaires, repas d’entreprise, célébrations — parlons-en.</p>
+        <p class="panel__lead">Anniversaires, repas d’entreprise, célébrations. Parlons-en.</p>
       </header>
 
       <ol class="progress" aria-label="Progression de la demande">
@@ -729,7 +729,6 @@ require_once __DIR__ . '/assets/includes/config.php';
                 <option value="Anniversaire">Anniversaire</option>
                 <option value="Événement d’entreprise">Événement d’entreprise</option>
                 <option value="Mariage">Mariage</option>
-                <option value="Baptême / Communion">Baptême / Communion</option>
                 <option value="Repas de famille">Repas de famille</option>
                 <option value="Soirée privée">Soirée privée</option>
                 <option value="Autre">Autre</option>
@@ -807,9 +806,8 @@ require_once __DIR__ . '/assets/includes/config.php';
         </section>
       </form>
 
-      <!-- ============ ÉTAPE 2 ============ -->
+      <!-- ============ ÉTAPE 2 / Confirmation ============ -->
       <section class="step result" data-step="2" hidden aria-live="polite" aria-labelledby="result-title">
-        <p class="eyebrow">Votre demande est enregistrée</p>
         <h2 id="result-title">Merci&nbsp;!</h2>
         <p id="result-copy"></p>
 
@@ -844,13 +842,15 @@ require_once __DIR__ . '/assets/includes/config.php';
   "use strict";
 
   // ---------- CONFIG ----------
+  // Party limits must stay identical to send_event_booking.php (10 to 300)
   var APP_CONFIG = {
-    maxPartySize:     18,
-    customPartyMax:   500,
-    minDate:          null,
-    maxAdvanceDays:   730,
-    slotInterval:     30,
+    minPartySize:       10,
+    maxPartySize:       300,
+    minDate:            null,
+    maxAdvanceDays:     730,
+    slotInterval:       30,
     minLeadTimeMinutes: 30,
+    phone:              "09 82 68 44 17",
 
     openingHours: {
       0: null,
@@ -862,15 +862,14 @@ require_once __DIR__ . '/assets/includes/config.php';
       6: { lunch: ["12:00", "14:00"], dinner: ["19:00", "23:00"] }
     },
     closedDates: [],
-    dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi']
+    dayNames: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"]
   };
 
   // ---------- DOM ----------
   var $form            = $("#event-form");
   var $date            = $("#date");
   var $time            = $("#time");
-  var $party           = $("#partySize");
-  var $partyCustom     = $("#partySizeCustom");
+  var $party           = $("#partySizeCustom");
   var $submitBtn       = $("#submit-event");
   var $globalError     = $("#global-error");
   var $availability    = $("#availability-status");
@@ -879,10 +878,11 @@ require_once __DIR__ . '/assets/includes/config.php';
   var $locationCards   = $locationPicker.find(".location__card");
   var $locationRadios  = $locationPicker.find('input[name="location"]');
 
+  var SUBMIT_LABEL = 'Envoyer ma demande <span aria-hidden="true">&#8594;</span>';
+
   // ---------- State ----------
   var selectedTime     = "";
   var selectedLocation = "";
-  var customPartyMode  = false;
 
   // ---------- Helpers ----------
   function pad2(n) { return String(n).padStart(2, "0"); }
@@ -891,15 +891,28 @@ require_once __DIR__ . '/assets/includes/config.php';
     return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
   }
 
+  // Number of guests typed in the field (0 when empty => invalid)
   function getPartySize() {
-    if (customPartyMode) {
-      var v = parseInt($partyCustom.val(), 10);
-      if (isNaN(v) || v < 19) return "";
-      return String(v);
+    var n = parseInt($party.val(), 10);
+    return isNaN(n) ? 0 : n;
+  }
+
+  function partyIsValid() {
+    var n = getPartySize();
+    return n >= APP_CONFIG.minPartySize && n <= APP_CONFIG.maxPartySize;
+  }
+
+  function partyMessage() {
+    var n = getPartySize();
+    if (!n) return "Indiquez le nombre de personnes (minimum " + APP_CONFIG.minPartySize + ").";
+    if (n < APP_CONFIG.minPartySize) {
+      return "Pour un événement, le minimum est de " + APP_CONFIG.minPartySize + " personnes.";
     }
-    var s = $party.val();
-    if (s === "+18" || s === "") return "";
-    return s;
+    if (n > APP_CONFIG.maxPartySize) {
+      return "Pour un groupe de plus de " + APP_CONFIG.maxPartySize +
+             " personnes, merci de nous appeler au " + APP_CONFIG.phone + ".";
+    }
+    return "";
   }
 
   // ---------- Init ----------
@@ -912,17 +925,8 @@ require_once __DIR__ . '/assets/includes/config.php';
     var max = new Date(today);
     max.setDate(max.getDate() + APP_CONFIG.maxAdvanceDays);
     $date.attr("max", toLocalISODate(max));
-
-    for (var i = 1; i <= APP_CONFIG.maxPartySize; i++) {
-      $party.append(
-        $("<option>", {
-          value: i,
-          text: i + (i === 1 ? " personne" : " personnes")
-        })
-      );
-    }
-    $party.append($("<option>", { value: "+18", text: "+ de 18 personnes" }));
-    $party.val("2");
+    $party.attr({ min: APP_CONFIG.minPartySize, max: APP_CONFIG.maxPartySize });
+    $party.val("");
 
     $date.val(minDate);
     refreshAvailability();
@@ -934,8 +938,7 @@ require_once __DIR__ . '/assets/includes/config.php';
     var date = new Date(dateStr + "T12:00:00");
     if (isNaN(date.getTime())) return [];
 
-    var day   = date.getDay();
-    var hours = APP_CONFIG.openingHours[day];
+    var hours = APP_CONFIG.openingHours[date.getDay()];
     if (!hours) return [];
     if (APP_CONFIG.closedDates.indexOf(dateStr) !== -1) return [];
 
@@ -962,8 +965,7 @@ require_once __DIR__ . '/assets/includes/config.php';
     slots.forEach(function (s) { if (unique.indexOf(s) === -1) unique.push(s); });
     unique.sort();
 
-    var todayStr = toLocalISODate(new Date());
-    if (dateStr === todayStr) {
+    if (dateStr === toLocalISODate(new Date())) {
       var cutoff = new Date();
       cutoff.setMinutes(cutoff.getMinutes() + APP_CONFIG.minLeadTimeMinutes);
 
@@ -978,10 +980,9 @@ require_once __DIR__ . '/assets/includes/config.php';
     return unique;
   }
 
-  // ---------- Availability ----------
+  // ---------- Availability (depends on the date only) ----------
   function refreshAvailability() {
-    var dateVal  = $date.val();
-    var partyVal = getPartySize();
+    var dateVal = $date.val();
 
     $availability.removeClass("is-closed");
 
@@ -990,12 +991,6 @@ require_once __DIR__ . '/assets/includes/config.php';
       $time.prop("disabled", true).empty().append('<option value="">Choisir</option>');
       updateSubmitButton();
       $availability.text("Choisissez une date pour voir les disponibilités.");
-      return;
-    }
-
-    if (!partyVal) {
-      updateSubmitButton();
-      $availability.text("Saisissez un nombre de 19 personnes ou plus.");
       return;
     }
 
@@ -1016,14 +1011,10 @@ require_once __DIR__ . '/assets/includes/config.php';
         $availability
           .addClass("is-closed")
           .text("Nous sommes fermés le " + APP_CONFIG.dayNames[dayIndex] + " — essayez une autre date ou appelez-nous.");
+      } else if (dateVal === toLocalISODate(new Date())) {
+        $availability.text("Il n’y a plus de créneau disponible aujourd’hui. Essayez une autre date ou appelez-nous au " + APP_CONFIG.phone + ".");
       } else {
-        var todayStr = toLocalISODate(new Date());
-        var isToday  = dateVal === todayStr;
-        $availability.text(
-          isToday
-            ? "Il n’y a plus de créneau disponible aujourd’hui. Essayez une autre date ou appelez-nous au 09 82 68 44 17."
-            : "Aucun créneau disponible. Essayez une autre date."
-        );
+        $availability.text("Aucun créneau disponible. Essayez une autre date.");
       }
       return;
     }
@@ -1046,9 +1037,7 @@ require_once __DIR__ . '/assets/includes/config.php';
 
   // ---------- Submit button state ----------
   function updateSubmitButton() {
-    var partyVal = getPartySize();
-    var partyOk  = partyVal !== "" && parseInt(partyVal, 10) >= 1;
-    $submitBtn.prop("disabled", !(partyOk && !!selectedTime && !!selectedLocation));
+    $submitBtn.prop("disabled", !(partyIsValid() && !!selectedTime && !!selectedLocation));
   }
 
   // ---------- Errors ----------
@@ -1088,21 +1077,12 @@ require_once __DIR__ . '/assets/includes/config.php';
     var eventType = $("#eventType").val();
     var email     = $.trim($("#email").val());
     var phone     = $.trim($("#phone").val()).replace(/[\s.\-]/g, "");
-    var partyVal  = parseInt(getPartySize(), 10);
 
-    if (!$date.val())  { showError("date", "Veuillez choisir une date.");   valid = false; }
-    if (!$time.val())  { showError("time", "Veuillez choisir un créneau."); valid = false; }
+    if (!$date.val()) { showError("date", "Veuillez choisir une date.");   valid = false; }
+    if (!$time.val()) { showError("time", "Veuillez choisir un créneau."); valid = false; }
 
-    if (!partyVal || partyVal < 1) {
-      showError("partySize", "Veuillez choisir le nombre de personnes.");
-      valid = false;
-    } else if (customPartyMode && partyVal < 19) {
-      showError("partySize", "Veuillez saisir 19 personnes ou plus.");
-      valid = false;
-    } else if (partyVal > APP_CONFIG.customPartyMax) {
-      showError("partySize",
-        "Pour un groupe de plus de " + APP_CONFIG.customPartyMax +
-        " personnes, merci de nous appeler au 09 82 68 44 17.");
+    if (!partyIsValid()) {
+      showError("partySize", partyMessage());
       valid = false;
     }
 
@@ -1159,44 +1139,16 @@ require_once __DIR__ . '/assets/includes/config.php';
       refreshAvailability();
     });
 
-    $party.on("change", function () {
-      var val = $(this).val();
-
-      if (val === "+18") {
-        customPartyMode = true;
-        $party.hide();
-        $partyCustom.prop("hidden", false).val("");
-        clearError("partySize");
-        updateSubmitButton();
-        $availability.text("Saisissez un nombre de 19 personnes ou plus.");
-        setTimeout(function () { $partyCustom.trigger("focus"); }, 30);
-        return;
-      }
-
-      customPartyMode = false;
+    // Number of guests (visible field)
+    $party.on("input change", function () {
       clearError("partySize");
-      refreshAvailability();
-    });
 
-    $partyCustom.on("input", function () {
-      clearError("partySize");
-      var v = parseInt($(this).val(), 10);
-
-      if (isNaN(v) || v < 19) {
+      var n = getPartySize();
+      if (n && !partyIsValid()) {
+        $availability.removeClass("is-closed").text(partyMessage());
         updateSubmitButton();
-        $availability.text("Saisissez un nombre de 19 personnes ou plus.");
         return;
       }
-
-      if (v > APP_CONFIG.customPartyMax) {
-        updateSubmitButton();
-        $availability.text(
-          "Pour un groupe de plus de " + APP_CONFIG.customPartyMax +
-          " personnes, merci de nous appeler au 09 82 68 44 17."
-        );
-        return;
-      }
-
       refreshAvailability();
     });
 
@@ -1233,25 +1185,26 @@ require_once __DIR__ . '/assets/includes/config.php';
       if (!validateForm()) {
         var $firstError = $(".has-error").first();
         if ($firstError.length) {
-          $firstError.find("input, select, textarea").first().trigger("focus");
+          // focus the first VISIBLE control (the party dropdown is hidden)
+          $firstError.find("input, select, textarea").filter(":visible").first().trigger("focus");
           $firstError[0].scrollIntoView({ behavior: "smooth", block: "center" });
         }
         return;
       }
 
       var payload = {
-        csrf:           $csrf.val(),
-        eventDate:      $date.val(),
-        eventTime:      $time.val(),
-        partySize:      getPartySize(),
-        eventType:      $("#eventType").val(),
-        location:       selectedLocation,
-        firstName:      $.trim($("#firstName").val()),
-        lastName:       $.trim($("#lastName").val()),
-        email:          $.trim($("#email").val()),
-        phone:          $.trim($("#phone").val()),
-        message:        $.trim($("#message").val()),
-        website:        $("#website").val()
+        csrf:      $csrf.val(),
+        eventDate: $date.val(),
+        eventTime: $time.val(),
+        partySize: getPartySize(),
+        eventType: $("#eventType").val(),
+        location:  selectedLocation,
+        firstName: $.trim($("#firstName").val()),
+        lastName:  $.trim($("#lastName").val()),
+        email:     $.trim($("#email").val()),
+        phone:     $.trim($("#phone").val()),
+        message:   $.trim($("#message").val()),
+        website:   $("#website").val() || ""
       };
 
       $submitBtn
@@ -1267,18 +1220,17 @@ require_once __DIR__ . '/assets/includes/config.php';
         .done(function (response) {
           if (response.success) {
             $("#result-reference").text(response.reference || "—");
-            $("#result-title").text("Merci !");
-            $("#result-copy").text(
-              "Nous avons bien reçu votre projet d’événement. L’équipe vous contactera personnellement sous 24h ouvrées."
-            );
+            $("#result-title").text("Votre réservation est confirmée.");
+			$("#result-copy").html(
+			  "Un mail de confirmation vient de vous être envoyé.<br>Vous ne le trouvez pas&nbsp;? Pensez à vérifier votre dossier <strong>courriers indésirables (spam).</strong>"
+			);
+			$("#event-title, .panel__lead, .progress").hide();
             goToStep(2);
           } else {
             $globalError
               .removeAttr("hidden")
               .text(response.message || "Une erreur est survenue. Veuillez réessayer.");
-            $submitBtn
-              .prop("disabled", false)
-              .html('Envoyer ma demande <span aria-hidden="true">&#8594;</span>');
+            $submitBtn.prop("disabled", false).html(SUBMIT_LABEL);
           }
         })
         .fail(function (xhr) {
@@ -1286,12 +1238,10 @@ require_once __DIR__ . '/assets/includes/config.php';
           if (xhr.responseJSON && xhr.responseJSON.message) {
             msg = xhr.responseJSON.message;
           } else if (xhr.status === 0) {
-            msg = "Connexion impossible. Vérifiez que le serveur est bien démarré.";
+            msg = "Connexion impossible. Vérifiez votre connexion internet puis réessayez.";
           }
           $globalError.removeAttr("hidden").text(msg);
-          $submitBtn
-            .prop("disabled", false)
-            .html('Envoyer ma demande <span aria-hidden="true">&#8594;</span>');
+          $submitBtn.prop("disabled", false).html(SUBMIT_LABEL);
         });
     });
   });

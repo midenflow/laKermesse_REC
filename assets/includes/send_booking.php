@@ -1,6 +1,7 @@
 <?php
 
-### send_booking.php
+## file :  send_booking.php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/config.php';
@@ -11,6 +12,116 @@ header('Content-Type: application/json; charset=utf-8');
 requirePost();
 requireCsrf();
 rejectHoneypot();
+
+// ============================================================
+// LOGO (embedded inside the e-mail as a CID image: no external link)
+// ============================================================
+const KERMESSE_LOGO_CID = 'kermesse-logo';
+
+// 560x112 transparent PNG, base64 encoded
+const KERMESSE_LOGO_B64 = <<<'B64'
+iVBORw0KGgoAAAANSUhEUgAAAjAAAABwCAMAAAA36LoYAAAA/1BMVEUAAABBwO/t23HsgW9nyp3bucfZfL4+SEg+R0dRVU5GSkk+
+SEjUiXZGTErr2XE6SkpBwO9Du/K4kHlBwO+mlGhnyZ5oy5xGxfDi0W9oypwr0/LYe73auca9kHzTmW/We7zausZAvvCOdGfbt8nf
+iK4AgICrnWdBv++gl5pCSUnkbbakb5aA///dk2zn13COsozjyaKdpojbeMJYsaaacmaKdGfJrbjQsryA/4Dl5eWVz47X0I+laJPe
+fG1+gVq+c6kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADVSDTD
+AAAAQHRSTlMA/Pz8/Pz936JhHWKjlJ8fohmcYmCfHiBqWhGkodZmZmBWZh8TAjKPX80XYAIqKg+fqBkEN4lkmgIDm1wxRWmF6VIG
+eQAAFUxJREFUeNrtnQdz20iygCmJ0iQMMnMSaUUr2Ou44e7d//9XDwARpgc9CCYp+eqma6u2TEo2OfjQuRuDgRUrVqxYsWLFihUr
+VqxYsWLFihUrVqxYsWLFihUrVqxYsWLliMIFpVR4xreZYMl/nj2od5RgL8+/Ay6UUJaIpBx512PJ20KI7H/cXrj3kEnknxXiR8G7
+88LW7nkiLqMYTIRl7ybvvwhiiXkH3XJ/BmX7rrhIOT0vpGZ1PELjc0XW1BLz1rj4ZzWJ3umzeKm5UYHgTOel0C6FTAmz1/AtJTrD
+5I2J8YRILA0hVAoIhAc1jAA05TrGWqX35+XsbPKWtCSkJE5uPHVrNECnlpL1eV0QR8fKiWTun5nkLbwVlsTOVDI2dd1zVFzVQ/Hk
+I/pjU6tifgNezuYn1ysy1SuxiZWMF6kqD4rzklBl8zHvwEsWTU/8t/FieOKySMwEQdUB8jBSmn6cWrf3bcIjVaHc1147pSVKYuMW
+WBJcGFF5YdT4G1TYi/nWvGzrr57I7fUSS8Sm5z1xSeIj8+/YVMybiGqPlNwu9toRtUsn5ZL6JZACjsTT1c/ai/kGsjVkXU4KTMIL
+MwVELvB2oZXxCNN+es1kQR6zLswbG6T7wRsBwymKizuNmaBCeUtqSoNqDgxL7JpM/GbXRtVvJJMz3CApbxzdh/EoYlfcaXLxM4nV
+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
+YII=
+B64;
+
+function kermesseLogoImg(int $height): string
+{
+    $width = $height * 5;
+    return '<img src="cid:' . KERMESSE_LOGO_CID . '" alt="La Kermesse"'
+         . ' width="' . $width . '" height="' . $height . '"'
+         . ' style="display:inline-block;border:0;outline:none;text-decoration:none;'
+         .          'width:' . $width . 'px;height:' . $height . 'px;'
+         .          'font-family:Georgia,serif;font-style:italic;font-size:' . (int) round($height * 0.55) . 'px;color:#f4efe4;">';
+}
+
+// Must be called before every ->send() (attachments are cleared between sends)
+function attachKermesseLogo($mail): void
+{
+    $mail->addStringEmbeddedImage(
+        base64_decode(str_replace(["\r", "\n"], '', KERMESSE_LOGO_B64)),
+        KERMESSE_LOGO_CID,
+        'la-kermesse.png',
+        'base64',
+        'image/png'
+    );
+}
 
 // ---------- Collect table-specific fields ----------
 $date           = clean($_POST['date']      ?? '');
@@ -83,36 +194,21 @@ $partySizeLabel = $partySize . ' ' . ($partySize === 1 ? 'personne' : 'personnes
 
 // ============================================================
 // EMAIL PRESENTATION VALUES
-// Every conditional, colour or optional block lives here.
-// The two heredocs below contain nothing but {$variables}.
 // ============================================================
 
-// ---------- Wordmark ----------
-$wordmark = '<span style="color:#29ABE2;">l</span>'
-          . '<span style="color:#F15A5A;">a</span>'
-          . '&nbsp;'
-          . '<span style="color:#F7D74C;">K</span>'
-          . '<span style="color:#F48FB1;">e</span>'
-          . '<span style="color:#4ECB8C;">r</span>'
-          . '<span style="color:#29ABE2;">m</span>'
-          . '<span style="color:#F5A15E;">e</span>'
-          . '<span style="color:#F7D74C;">s</span>'
-          . '<span style="color:#F48FB1;">s</span>'
-          . '<span style="color:#4ECB8C;">e</span>';
-
-// ---------- Wordmark variants (used inside the heredocs) ----------
-$wordmarkSmall = $wordmark;   // restaurant header + footer
-$wordmarkBig   = $wordmark;   // guest header + footer
+// ---------- Wordmark variants (embedded logo image) ----------
+$wordmarkSmall = kermesseLogoImg(36);   // restaurant header + footer, guest footer
+$wordmarkBig   = kermesseLogoImg(56);   // guest header
 
 // ---------- Rainbow hairline ----------
 $rainbowHairline = '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">'
                  . '<tr>'
                  . '<td width="16.66%" height="2" style="background:#29ABE2;line-height:2px;font-size:0;">&nbsp;</td>'
-                 . '<td width="16.66%" height="2" style="background:#F15A5A;line-height:2px;font-size:0;">&nbsp;</td>'
-                 . '<td width="16.66%" height="2" style="background:#F7D74C;line-height:2px;font-size:0;">&nbsp;</td>'
-                 . '<td width="16.66%" height="2" style="background:#4ECB8C;line-height:2px;font-size:0;">&nbsp;</td>'
-                 . '<td width="16.66%" height="2" style="background:#F5A15E;line-height:2px;font-size:0;">&nbsp;</td>'
-                 . '<td width="16.66%" height="2" style="background:#F48FB1;line-height:2px;font-size:0;">&nbsp;</td>'
+                 . '<td width="16.66%" height="2" style="background:#EF6C57;line-height:2px;font-size:0;">&nbsp;</td>'
+                 . '<td width="16.66%" height="2" style="background:#F4CE47;line-height:2px;font-size:0;">&nbsp;</td>'
+                 . '<td width="16.66%" height="2" style="background:#5BC088;line-height:2px;font-size:0;">&nbsp;</td>'
+                 . '<td width="16.66%" height="2" style="background:#EE8B5C;line-height:2px;font-size:0;">&nbsp;</td>'
+                 . '<td width="16.66%" height="2" style="background:#E91E8C;line-height:2px;font-size:0;">&nbsp;</td>'
                  . '</tr></table>';
 
 // ---------- Gold hairline rule (used in headers) ----------
@@ -121,26 +217,35 @@ $goldRule = '<table role="presentation" width="100%" cellpadding="0" cellspacing
           . '<td height="4" style="background:#c6a56a;line-height:4px;font-size:0;">&nbsp;</td>'
           . '</tr></table>';
 
+// ---------- Safe HTML versions of free-text fields (keeps line breaks) ----------
+$toHtml = static fn(string $t): string => nl2br(
+    htmlspecialchars(html_entity_decode($t, ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8')
+);
+$allergyHtml = $toHtml($allergyDetails);
+$messageHtml = $toHtml($message);
+
 // ---------- Allergy presentation values ----------
 $allergyValueColor  = $hasAllergy === 'yes' ? '#F15A5A' : '#092934';
 $allergyValueWeight = $hasAllergy === 'yes' ? 'bold'    : 'normal';
 
 $allergyCallout = $hasAllergy === 'yes'
-    ? '<tr><td style="padding:32px 52px 0 52px;">'
-    .   '<div style="padding:20px 24px;background:#fdf6f5;border-left:2px solid #F15A5A;">'
-    .     '<div style="font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#F15A5A;margin-bottom:10px;">Allergie signalée</div>'
-    .     '<div style="font-family:Georgia,serif;font-style:italic;font-size:17px;line-height:1.6;color:#071e28;">'
-    .       $allergyDetails
+    ? '<tr><td style="padding:0 32px 24px 32px;">'
+    .   '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fdf6f5;border-left:3px solid #F15A5A;">'
+    .   '<tr><td style="padding:18px 20px;">'
+    .     '<div style="font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#F15A5A;margin-bottom:8px;">Allergie signalée</div>'
+    .     '<div style="font-family:Georgia,serif;font-style:italic;font-size:16px;line-height:1.6;color:#071e28;word-break:break-word;overflow-wrap:anywhere;">'
+    .       $allergyHtml
     .     '</div>'
-    .   '</div>'
+    .   '</td></tr></table>'
     . '</td></tr>'
     : '';
 
 $guestAllergyNote = $hasAllergy === 'yes'
-    ? '<tr><td style="padding:28px 52px 0 52px;">'
-    .   '<div style="font-family:Georgia,serif;font-style:italic;font-size:15px;line-height:1.7;color:#0d3442;padding-left:18px;border-left:2px solid #F15A5A;">'
-    .     'Note transmise à la cuisine&nbsp;: ' . $allergyDetails
-    .   '</div>'
+    ? '<tr><td style="padding:0 40px 24px 40px;">'
+    .   '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-left:3px solid #F15A5A;">'
+    .   '<tr><td style="padding:4px 0 4px 16px;font-family:Georgia,serif;font-style:italic;font-size:15px;line-height:1.7;color:#0d3442;word-break:break-word;overflow-wrap:anywhere;">'
+    .     'Note transmise à la cuisine&nbsp;: ' . $allergyHtml
+    .   '</td></tr></table>'
     . '</td></tr>'
     : '';
 
@@ -149,16 +254,18 @@ $allergyAltLine   = $hasAllergy === 'yes' ? "Allergie : {$allergyDetails}\n" : '
 
 // ---------- Optional message block (restaurant) ----------
 $messageBlock = trim($message) !== ''
-    ? '<tr><td style="padding:32px 52px 0 52px;">'
-    .   '<div style="font-family:Georgia,serif;font-style:italic;font-size:16px;line-height:1.7;color:#0d3442;padding-left:18px;border-left:2px solid #c6a56a;">'
-    .     $message
-    .   '</div>'
+    ? '<tr><td style="padding:0 32px 28px 32px;">'
+    .   '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:20px;color:#092934;margin-bottom:12px;">Message du client</div>'
+    .   '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#e7dac4;border-left:3px solid #c6a56a;">'
+    .   '<tr><td style="padding:16px 20px;font-family:Georgia,serif;font-style:italic;font-size:15px;line-height:1.7;color:#092934;word-break:break-word;overflow-wrap:anywhere;">'
+    .     $messageHtml
+    .   '</td></tr></table>'
     . '</td></tr>'
     : '';
 
 // ---------- Subjects ----------
 $restaurantSubject = ($hasAllergy === 'yes' ? '⚠ Allergie — ' : '')
-                   . "Réservation {$reference}";
+                   . "Nouvelle réservation {$reference}";
 $guestSubject      = "Votre réservation à La Kermesse — {$reference}";
 
 // ============================================================
@@ -182,7 +289,7 @@ $restaurantBody = <<<HTML
 <!-- HEADER -->
 <tr>
 <td style="background:#0d3442;padding:28px 32px;">
-<div style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:30px;line-height:1.2;letter-spacing:-0.02em;">{$wordmarkSmall}</div>
+<div style="line-height:1;">{$wordmarkSmall}</div>
 <div style="margin-top:10px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#f4efe4;">Nouvelle demande de réservation</div>
 </td>
 </tr>
@@ -255,8 +362,8 @@ $restaurantBody = <<<HTML
 <!-- FOOTER -->
 <tr>
 <td align="center" style="background:#092934;padding:26px 24px;">
-<div style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:22px;line-height:1.3;">{$wordmarkSmall}</div>
-<div style="margin-top:10px;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#f4efe4;">121 rue de Vern · Rennes</div>
+<div style="line-height:1;">{$wordmarkSmall}</div>
+<div style="margin-top:10px;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#f4efe4;">121 rue de Vern, Rennes</div>
 <div style="margin-top:12px;font-size:11px;line-height:1.6;color:#c6a56a;">La Kermesse · Nouvelle réservation</div>
 </td>
 </tr>
@@ -294,8 +401,8 @@ Nous avons reçu votre demande — {$reference} — {$dateFormatted} à {$timeEl
 <!-- HEADER -->
 <tr>
 <td align="center" style="background:#0d3442;padding:36px 24px 28px 24px;">
-<div style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:39px;line-height:1.2;letter-spacing:-0.02em;">{$wordmarkBig}</div>
-<div style="margin-top:12px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#f4efe4;">121 rue de Vern · Rennes</div>
+<div style="line-height:1;">{$wordmarkBig}</div>
+<div style="margin-top:12px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#f4efe4;text-decoration: none;">121 rue de Vern, Rennes</div>
 </td>
 </tr>
 
@@ -364,15 +471,15 @@ Pour modifier votre demande ou nous poser une question, répondez simplement à 
 <!-- CTA -->
 <tr>
 <td align="center" style="padding:0 32px 38px 32px;">
-<a href="tel:+33982684417" style="display:inline-block;padding:15px 25px;background:#c6a56a;color:#092934;text-decoration:none;font-size:11px;font-weight:bold;letter-spacing:0.12em;text-transform:uppercase;border:1px solid #c6a56a;">Nous appeler · 09 82 68 44 17</a>
+<a href="tel:+33982684417" style="display:inline-block;padding:15px 25px;background:#c6a56a;color:#092934;text-decoration:none;font-size:11px;font-weight:bold;letter-spacing:0.12em;text-transform:uppercase;border:1px solid #c6a56a;">Nous appeler | 09 82 68 44 17</a>
 </td>
 </tr>
 
 <!-- FOOTER -->
 <tr>
 <td align="center" style="background:#092934;padding:27px 24px;">
-<div style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:23px;line-height:1.3;">{$wordmarkSmall}</div>
-<div style="margin-top:10px;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#f4efe4;">121 rue de Vern · Rennes</div>
+<div style="line-height:1;">{$wordmarkSmall}</div>
+<div style="margin-top:10px;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#f4efe4;text-decoration: none;">121 rue de Vern, Rennes</div>
 <div style="margin-top:14px;font-size:11px;line-height:1.7;color:#d5dadd;">Vous recevez cet e-mail suite à votre demande de réservation.<br>Aucune donnée personnelle n’est cédée à des tiers.</div>
 </td>
 </tr>
@@ -419,14 +526,17 @@ try {
     $mail->addAddress(RESTAURANT_EMAIL, RESTAURANT_NAME);
     $mail->Subject = $restaurantSubject;
     $mail->Body    = $restaurantBody;
+    attachKermesseLogo($mail);
     $mail->send();
 
     // → Guest
     $mail->clearAddresses();
+    $mail->clearAttachments();
     $mail->addAddress($email, $firstName . ' ' . $lastName);
     $mail->Subject = $guestSubject;
     $mail->Body    = $guestBody;
     $mail->AltBody = $guestAltBody;
+    attachKermesseLogo($mail);
     $mail->send();
 
     jsonResponse([

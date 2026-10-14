@@ -3,6 +3,7 @@ require_once __DIR__ . '/assets/includes/config.php';
 ?>
 <!doctype html>
 <html lang="fr">
+<?php echo $copyright; ?>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -712,13 +713,13 @@ require_once __DIR__ . '/assets/includes/config.php';
 
             <div class="field">
               <label for="firstName">Prénom</label>
-              <input type="text" id="firstName" name="firstName" maxlength="80" autocomplete="given-name" required aria-describedby="firstName-error">
+              <input type="text" id="firstName" name="firstName" maxlength="80" placeholder="Prénom" autocomplete="given-name" required aria-describedby="firstName-error">
               <p class="field-error" id="firstName-error" data-error-for="firstName" role="alert"></p>
             </div>
 
             <div class="field">
               <label for="lastName">Nom</label>
-              <input type="text" id="lastName" name="lastName" maxlength="80" autocomplete="family-name" required aria-describedby="lastName-error">
+              <input type="text" id="lastName" name="lastName" maxlength="80" placeholder="Nom" autocomplete="family-name" required aria-describedby="lastName-error">
               <p class="field-error" id="lastName-error" data-error-for="lastName" role="alert"></p>
             </div>
 
@@ -738,13 +739,13 @@ require_once __DIR__ . '/assets/includes/config.php';
 
             <div class="field">
               <label for="email">E-mail</label>
-              <input type="email" id="email" name="email" maxlength="160" autocomplete="email" required aria-describedby="email-error">
+              <input type="email" id="email" name="email" maxlength="160" placeholder="nom.prenom@mail.com" autocomplete="email" required aria-describedby="email-error">
               <p class="field-error" id="email-error" data-error-for="email" role="alert"></p>
             </div>
 
             <div class="field">
               <label for="phone">Téléphone</label>
-              <input type="tel" id="phone" name="phone" maxlength="30" autocomplete="tel" required aria-describedby="phone-error">
+              <input type="tel" id="phone" name="phone" maxlength="30" placeholder="06XXXXXXXX"  autocomplete="tel" required aria-describedby="phone-error">
               <p class="field-error" id="phone-error" data-error-for="phone" role="alert"></p>
             </div>
 

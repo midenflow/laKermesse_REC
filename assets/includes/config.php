@@ -2,16 +2,27 @@
 
 /** La Kermesse — Global configuration */
 
-####======= Site metadata
+####======= Site metadata + banner
+
 $website_version = 'v1';
 $author          = 'Midenflow.com';
 $author_website  = 'https://midenflow.com';
+
+
+$copyright = "<!--\n"
+    . "============================================\n"
+    . "La Kermesse          : (" . htmlspecialchars($website_version, ENT_QUOTES, 'UTF-8') . ")\n"
+    . "Design & development : " . htmlspecialchars($author, ENT_QUOTES, 'UTF-8') . "\n"
+    . "Author Website       : " . htmlspecialchars($author_website, ENT_QUOTES, 'UTF-8') . "\n"
+    . "============================================\n"
+    . "-->\n";
+// ========================================================================================
 
 ####======= SMTP (Gmail)
 define('SMTP_HOST',   'smtp.gmail.com');
 define('SMTP_PORT',   587);
 define('SMTP_USER',   'midenflow.team@gmail.com');
-define('SMTP_PASS',   'XXXXXXX');
+define('SMTP_PASS',   'zwwmtmothifplurf');
 define('SMTP_SECURE', 'tls');                        // tls (587) or ssl (465)
 
 // ============================================

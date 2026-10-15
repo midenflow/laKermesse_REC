@@ -13,7 +13,7 @@
 .carte-formula__prices p:not(:last-child)::after { content: "—"; margin-left: clamp(.85rem, 2vw, 2rem); color: rgba(244, 239, 228, .46); }
 .carte-catalogue { padding-top: clamp(2.2rem, 4.5vw, 4rem); }
 .carte-tabs-wrap { overflow-x: auto; padding-bottom: .35rem; scrollbar-width: thin; scrollbar-color: var(--gold) transparent; }
-.carte-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); min-width: 43rem; border: 1px solid rgba(244, 239, 228, .32); }
+.carte-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); min-width: 33rem; border: 1px solid rgba(244, 239, 228, .32); }
 .carte-tab { min-height: 4rem; padding: .85rem 1rem; border: 0; border-right: 1px solid rgba(244, 239, 228, .25); background: rgba(4, 3, 2, .22); color: var(--cream); cursor: pointer; font-size: .74rem; font-weight: 600; letter-spacing: .11em; text-transform: uppercase; transition: background .25s ease, color .25s ease; }
 .carte-tab:last-child { border-right: 0; }
 .carte-tab:hover, .carte-tab.is-active { background: var(--cream); color: var(--ink); }
@@ -34,6 +34,8 @@
 .carte-empty { display: grid; place-items: center; min-height: 24rem; text-align: center; }
 .carte-empty__title { margin: 0 0 .25rem; font-family: var(--serif); font-size: clamp(2.6rem, 5vw, 4rem); }
 .carte-empty__copy { margin: 0; color: rgba(244, 239, 228, .76); }
+.carte-formula-panel { display: grid; place-items: center; min-height: 24rem; padding: 2rem; text-align: center; }
+.carte-formula-panel__copy { max-width: 40rem; margin: 0; color: rgba(244, 239, 228, .9); font-family: var(--serif); font-size: clamp(1.7rem, 3.3vw, 3.35rem); line-height: 1.12; }
 .carte-load-error { margin: 4rem auto; text-align: center; }
 
 @media (max-width: 900px) {
@@ -59,6 +61,8 @@
   .carte-tabs { display: flex; min-width: max-content; }
   .carte-tab { min-width: 7.8rem; }
   .carte-panel { min-height: 0; padding-top: 2.7rem; }
+  .carte-formula-panel { min-height: 20rem; padding-inline: 0; }
+  .carte-formula-panel__copy { font-size: clamp(1.65rem, 8vw, 2.35rem); }
   .carte-grid { grid-template-columns: 1fr; gap: 2.4rem; max-width: 26rem; }
   .carte-card, .carte-grid[data-count="1"] .carte-card:first-child, .carte-grid[data-count="2"] .carte-card:first-child, .carte-grid[data-count="3"] .carte-card:nth-child(3), .carte-grid[data-count="4"] .carte-card:nth-child(4) { grid-column: 1; }
   .carte-card { grid-template-rows: clamp(13rem, 64vw, 17rem) auto; }

@@ -42,9 +42,18 @@
   };
 
   const renderCategory = category => {
-    const items = resolveItems(category);
     const title = makeElement('h2', 'sr-only', category.label);
     title.id = 'carte-panel-title';
+
+    if (category.type === 'formula') {
+      const formulaPanel = document.createElement('div');
+      formulaPanel.className = 'carte-formula-panel';
+      formulaPanel.append(makeElement('p', 'carte-formula-panel__copy', category.copy));
+      panel.replaceChildren(title, formulaPanel);
+      return;
+    }
+
+    const items = resolveItems(category);
 
     if (!items.length) {
       const empty = document.createElement('div');

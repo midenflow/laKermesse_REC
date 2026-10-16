@@ -41,6 +41,91 @@
     return (category.items || []).filter(item => item.active !== false);
   };
 
+  const renderDrinkList = items => {
+    const list = document.createElement('ul');
+    list.className = 'drinks-list';
+    items.forEach(item => {
+      const entry = document.createElement('li');
+      entry.className = 'drink-entry';
+      const primary = document.createElement('div');
+      primary.className = 'drink-entry__primary';
+      primary.append(makeElement('h4', '', item.name));
+      if (item.detail) primary.append(makeElement('p', 'drink-entry__detail', item.detail));
+
+      if (item.price) {
+        entry.append(primary, makeElement('p', 'drink-entry__price', item.price));
+      } else {
+        const prices = document.createElement('ul');
+        prices.className = 'drink-entry__prices';
+        (item.prices || []).forEach(({ label, value }) => {
+          const price = document.createElement('li');
+          price.append(makeElement('span', '', label), makeElement('strong', '', value));
+          prices.append(price);
+        });
+        entry.append(primary, prices);
+      }
+      list.append(entry);
+    });
+    return list;
+  };
+
+  const renderDrinkTable = (rows, columns) => {
+    const table = document.createElement('div');
+    table.className = 'drinks-table';
+    table.style.setProperty('--drink-column-count', String(columns.length));
+
+    const header = document.createElement('div');
+    header.className = 'drinks-table__header';
+    header.append(makeElement('span', 'sr-only', 'Boisson'));
+    columns.forEach(column => header.append(makeElement('span', '', column)));
+    table.append(header);
+
+    rows.forEach(row => {
+      const item = document.createElement('div');
+      item.className = 'drinks-table__row';
+      const primary = document.createElement('div');
+      primary.className = 'drinks-table__primary';
+      primary.append(makeElement('h4', '', row.name));
+      if (row.detail) primary.append(makeElement('p', '', row.detail));
+      item.append(primary);
+      row.prices.forEach((price, index) => {
+        const cell = makeElement('p', 'drinks-table__price', price);
+        cell.dataset.label = columns[index];
+        item.append(cell);
+      });
+      table.append(item);
+    });
+    return table;
+  };
+
+  const renderDrinks = category => {
+    const menu = document.createElement('div');
+    menu.className = 'drinks-menu';
+
+    category.groups.forEach(group => {
+      const section = document.createElement('section');
+      section.className = `drinks-group drinks-group--${group.id}`;
+      section.setAttribute('aria-labelledby', `drinks-${group.id}`);
+      const title = makeElement('h3', 'drinks-group__title', group.title);
+      title.id = `drinks-${group.id}`;
+      section.append(title);
+      if (group.items?.length) section.append(renderDrinkList(group.items));
+      if (group.rows?.length) section.append(renderDrinkTable(group.rows, group.columns));
+
+      (group.subgroups || []).forEach(subgroup => {
+        const subSection = document.createElement('section');
+        subSection.className = 'drinks-subgroup';
+        const subTitle = makeElement('h4', 'drinks-subgroup__title', subgroup.title);
+        subSection.append(subTitle);
+        if (subgroup.items?.length) subSection.append(renderDrinkList(subgroup.items));
+        if (subgroup.rows?.length) subSection.append(renderDrinkTable(subgroup.rows, group.columns));
+        section.append(subSection);
+      });
+      menu.append(section);
+    });
+    panel.replaceChildren(menu);
+  };
+
   const renderCategory = category => {
     const title = makeElement('h2', 'sr-only', category.label);
     title.id = 'carte-panel-title';
@@ -50,6 +135,12 @@
       formulaPanel.className = 'carte-formula-panel';
       formulaPanel.append(makeElement('p', 'carte-formula-panel__copy', category.copy));
       panel.replaceChildren(title, formulaPanel);
+      return;
+    }
+
+    if (category.type === 'drinks') {
+      renderDrinks(category);
+      panel.prepend(title);
       return;
     }
 

@@ -1,5 +1,5 @@
-.carte-page { min-height: 100svh; background: #120b06 var(--texture-wood) center / cover fixed; color: var(--cream); }
-.carte-page::before { content: ""; position: fixed; z-index: -1; inset: 0; background: rgba(5, 3, 2, .52); pointer-events: none; }
+.carte-page { --wood-base: #170b06; --wood-mid: #35170c; --wood-highlight: #704025; --wood-shadow: #090504; --wood-grain-opacity: .16; min-height: 100svh; background-color: var(--wood-base); background-image: radial-gradient(ellipse 115% 19% at 26% 13%, rgba(148, 86, 48, .16), transparent 72%), radial-gradient(ellipse 130% 17% at 75% 30%, rgba(5, 2, 1, .76), transparent 71%), radial-gradient(ellipse 110% 21% at 14% 57%, rgba(131, 74, 42, .13), transparent 70%), radial-gradient(ellipse 135% 16% at 68% 78%, rgba(2, 1, 0, .68), transparent 73%), repeating-linear-gradient(177deg, transparent 0 27px, rgba(164, 94, 51, var(--wood-grain-opacity)) 28px 29px, transparent 32px 65px), linear-gradient(90deg, var(--wood-shadow), var(--wood-mid) 48%, #281208 76%, var(--wood-shadow)); background-attachment: fixed; color: var(--cream); }
+.carte-page::before { content: ""; position: fixed; z-index: -1; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='120' viewBox='0 0 180 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8 .045' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.72'/%3E%3C/svg%3E"), linear-gradient(90deg, rgba(0, 0, 0, .28), transparent 23%, rgba(119, 64, 36, .08) 55%, rgba(0, 0, 0, .34)); background-size: 180px 120px, 100% 100%; background-blend-mode: soft-light, normal; opacity: .42; pointer-events: none; }
 .carte-page .site-header { position: fixed; }
 .carte-main { min-height: 100svh; padding: clamp(5.7rem, 8vw, 7rem) 0 clamp(4.75rem, 8vw, 7rem); }
 .carte-intro { display: grid; min-height: clamp(9rem, 15vw, 12rem); place-items: center; padding: clamp(2.25rem, 4vw, 3.5rem) var(--page-gutter); border-bottom: 1px solid rgba(244, 239, 228, .32); text-align: center; }
@@ -37,6 +37,31 @@
 .carte-formula-panel { display: grid; place-items: center; min-height: 24rem; padding: 2rem; text-align: center; }
 .carte-formula-panel__copy { max-width: 40rem; margin: 0; color: rgba(244, 239, 228, .9); font-family: var(--serif); font-size: clamp(1.7rem, 3.3vw, 3.35rem); line-height: 1.12; }
 .carte-load-error { margin: 4rem auto; text-align: center; }
+.drinks-menu { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(2rem, 5vw, 4.75rem) clamp(1.4rem, 3.5vw, 3.4rem); max-width: 1180px; margin-inline: auto; padding-bottom: clamp(1rem, 3vw, 3rem); }
+.drinks-group { grid-column: span 4; min-width: 0; padding-top: 1.05rem; border-top: 1px solid rgba(244, 239, 228, .3); }
+.drinks-group--bieres { grid-column: span 8; }
+.drinks-group--vins { grid-column: 1 / -1; }
+.drinks-group__title, .drinks-subgroup__title { margin: 0; color: var(--gold-glint); font-family: var(--sans); font-size: .72rem; font-weight: 700; letter-spacing: .14em; line-height: 1.2; text-transform: uppercase; }
+.drinks-list { display: grid; gap: .85rem; margin: 1.35rem 0 0; padding: 0; list-style: none; }
+.drink-entry { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: .75rem 1.25rem; }
+.drink-entry h4, .drinks-table h4 { margin: 0; color: var(--cream); font-family: var(--serif); font-size: clamp(1.08rem, 1.4vw, 1.28rem); font-weight: 400; line-height: 1.08; }
+.drink-entry__detail, .drinks-table__primary p { margin: .25rem 0 0; color: rgba(244, 239, 228, .64); font-family: var(--sans); font-size: .78rem; font-style: italic; line-height: 1.35; }
+.drink-entry__price { margin: .05rem 0 0; color: var(--gold-glint); font-family: var(--sans); font-size: .88rem; font-weight: 600; line-height: 1.25; white-space: nowrap; }
+.drink-entry__prices { display: grid; gap: .26rem; min-width: 8.5rem; margin: 0; padding: 0; list-style: none; }
+.drink-entry__prices li { display: flex; justify-content: space-between; gap: 1rem; color: rgba(244, 239, 228, .69); font-family: var(--sans); font-size: .78rem; line-height: 1.25; }
+.drink-entry__prices strong { color: var(--gold-glint); font-weight: 600; white-space: nowrap; }
+.drinks-table { margin-top: 1.35rem; border-top: 1px solid rgba(244, 239, 228, .22); }
+.drinks-table__header, .drinks-table__row { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(var(--drink-column-count), minmax(3.9rem, .62fr)); gap: .75rem; }
+.drinks-table__header { padding: .65rem 0 .55rem; color: rgba(244, 239, 228, .58); font-family: var(--sans); font-size: .65rem; font-weight: 700; letter-spacing: .08em; line-height: 1; text-align: right; text-transform: uppercase; }
+.drinks-table__row { align-items: start; padding: .85rem 0; border-top: 1px solid rgba(244, 239, 228, .14); }
+.drinks-table__primary { min-width: 0; }
+.drinks-table__price { margin: .05rem 0 0; color: var(--gold-glint); font-family: var(--sans); font-size: .86rem; font-weight: 600; line-height: 1.25; text-align: right; white-space: nowrap; }
+.drinks-subgroup { margin-top: 2.35rem; }
+.drinks-subgroup__title { color: rgba(244, 239, 228, .88); }
+.drinks-group--vins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 3rem); }
+.drinks-group--vins > .drinks-group__title { grid-column: 1 / -1; }
+.drinks-group--vins .drinks-subgroup { margin-top: 0; }
+.drinks-group--vins .drinks-table__header, .drinks-group--vins .drinks-table__row { grid-template-columns: minmax(0, 1.45fr) repeat(var(--drink-column-count), minmax(3.7rem, .65fr)); }
 
 @media (max-width: 900px) {
   .carte-formula__prices { max-width: 44rem; }
@@ -45,6 +70,9 @@
   .carte-grid[data-count="1"] .carte-card:first-child, .carte-grid[data-count="4"] .carte-card:nth-child(4) { grid-column: 2 / span 2; }
   .carte-grid[data-count="2"] .carte-card:first-child { grid-column: 1 / span 2; }
   .carte-grid[data-count="3"] .carte-card:nth-child(3) { grid-column: 2 / span 2; }
+  .drinks-menu { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 48rem; }
+  .drinks-group { grid-column: auto; }
+  .drinks-group--bieres, .drinks-group--vins { grid-column: 1 / -1; }
 }
 
 @media (max-width: 700px) {
@@ -67,6 +95,17 @@
   .carte-card, .carte-grid[data-count="1"] .carte-card:first-child, .carte-grid[data-count="2"] .carte-card:first-child, .carte-grid[data-count="3"] .carte-card:nth-child(3), .carte-grid[data-count="4"] .carte-card:nth-child(4) { grid-column: 1; }
   .carte-card { grid-template-rows: clamp(13rem, 64vw, 17rem) auto; }
   .carte-card h3 { font-size: 2rem; }
+  .drinks-menu { display: block; max-width: none; }
+  .drinks-group, .drinks-group--bieres, .drinks-group--vins { display: block; margin-bottom: 2.75rem; }
+  .drinks-list { gap: 1rem; }
+  .drink-entry { gap: .75rem; }
+  .drink-entry__prices { grid-column: 1 / -1; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); width: 100%; min-width: 0; padding-top: .1rem; }
+  .drinks-table__header { display: none; }
+  .drinks-table__row, .drinks-group--vins .drinks-table__row { grid-template-columns: 1fr; gap: .45rem; padding: 1rem 0; }
+  .drinks-table__price { display: flex; justify-content: space-between; gap: 1rem; margin: 0; text-align: left; white-space: normal; }
+  .drinks-table__price::before { content: attr(data-label); color: rgba(244, 239, 228, .62); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .drinks-group--vins > .drinks-group__title { margin-bottom: 1.35rem; }
+  .drinks-subgroup { margin-top: 2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

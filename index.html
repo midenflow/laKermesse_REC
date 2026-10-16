@@ -56,7 +56,7 @@ h3 { font-size: 2rem; }
 .button::after { content: ""; position: absolute; inset: 5px; border: 1px solid rgba(244, 239, 228, .2); border-radius: 4px; pointer-events: none; transition: inset .25s ease, border-color .25s ease; }
 .button:hover { background: #143f4e; color: var(--cream); box-shadow: inset 0 0 0 3px #143f4e, inset 0 0 0 4px var(--gold), 0 0 0 4px rgba(198, 165, 106, .36); transform: translateY(-2px); }
 .button:hover::after { inset: 3px; border-color: rgba(244, 239, 228, .55); }
-.button:focus-visible, .text-link:focus-visible, .info-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.button:focus-visible, .text-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
 .button--cream { background: var(--cream); color: var(--ink); box-shadow: inset 0 0 0 3px var(--cream), inset 0 0 0 4px var(--gold), 0 0 0 3px rgba(244, 239, 228, .18); }
 .button--cream:hover { background: #fffaf0; color: var(--ink); }
 .button--nav { min-height: 3rem; padding: .7rem 1rem; font-size: .7rem; }
@@ -393,21 +393,24 @@ h3 { font-size: 2rem; }
 .reserve-band .text-link--light { color: var(--accent-pink); }
 .reserve-band__checker { position: relative; z-index: 1; height: clamp(1.15rem, 1.65vw, 1.6rem); background-color: #fff; background-image: conic-gradient(#000 25%, #fff 0 50%, #000 0 75%, #fff 0); background-position: 0 0; background-size: 24px 24px; animation: checker-drift-left 6.5s linear infinite; }
 
-.info { position: relative; overflow: hidden; display: grid; grid-template-columns: .85fr 1.7fr; gap: 5rem; background: #06090b; color: var(--cream); }
-.info__intro h2 { margin-bottom: 0; }
-.info__details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-.info h3 { margin-bottom: 1rem; color: var(--cream); font-family: var(--sans); font-size: .9rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-.info address { margin-bottom: 1rem; font-style: normal; }
-.info-link { display: block; margin-bottom: .7rem; font-size: .9rem; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
-.info-link--icon { display: flex; align-items: center; gap: .55rem; min-height: 2.75rem; text-decoration: none; }
-.info-link--icon span { border-bottom: 1px solid currentColor; }
-.info-link--icon svg { width: 1rem; height: 1rem; flex: 0 0 1rem; fill: none; stroke: var(--gold); stroke-width: 1.7; }
-.hours h3 + p { margin-bottom: 1.45rem; }
-.hours p { margin: 0; font-size: .88rem; }
+.info { position: relative; overflow: hidden; background: #06090b; color: var(--cream); }
+.info__details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: clamp(2rem, 5vw, 5rem); }
+.paper-note { width: 100%; margin: 0; justify-self: center; }
+.paper-note img { width: 100%; height: auto; }
+.paper-note--hours { max-width: 40rem; }
+.paper-note--contact { max-width: 43rem; }
+.contact-paper { position: relative; }
+.contact-hotspot { position: absolute; z-index: 1; display: block; border-radius: 1rem; cursor: pointer; outline: none; }
+.contact-hotspot::after { position: absolute; inset: -6%; border-radius: inherit; background: radial-gradient(ellipse at center, rgba(255, 246, 194, .3), rgba(255, 246, 194, 0) 72%); content: ""; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+.contact-hotspot--phone { top: 49%; left: 20%; width: 62%; height: 17%; }
+.contact-hotspot--instagram { top: 68%; left: 15%; width: 72%; height: 16%; }
+.contact-hotspot:focus-visible { box-shadow: 0 0 0 2px rgba(244, 239, 228, .9), 0 0 1.1rem rgba(198, 165, 106, .5); }
+.contact-hotspot:focus-visible::after { opacity: .6; }
+@media (hover: hover) and (pointer: fine) { .contact-hotspot:hover::after { opacity: .55; } }
 .map-section { position: relative; overflow: hidden; padding-top: 0; padding-bottom: clamp(4.5rem, 7vw, 6.5rem); background: #06090b; color: var(--cream); }
-.map-section__head { display: flex; align-items: end; justify-content: space-between; margin-bottom: 1.5rem; }
-.map-section__head .eyebrow { margin-bottom: .4rem; }
-.map-section__head h2 { margin: 0; font-size: clamp(2.3rem, 4vw, 4rem); }
+.map-section__head { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; margin-bottom: 1.5rem; }
+.map-section__head .eyebrow { grid-column: 1; margin-bottom: .4rem; }
+.map-section__head h2 { grid-column: 2; margin: 0; font-size: clamp(1.15rem, 3.35vw, 4rem); white-space: nowrap; }
 .map-frame { height: 460px; overflow: hidden; border: 1px solid rgba(244, 239, 228, .22); border-radius: var(--radius-md); background: var(--petrol); }
 .map-frame iframe { width: 100%; height: 100%; border: 0; filter: saturate(.75) contrast(.95); }
 
@@ -624,11 +627,12 @@ h3 { font-size: 2rem; }
   .reserve-band__checker { height: 1.05rem; background-size: 18px 18px; animation-name: checker-drift-left-mobile; }
 
   .info { display: block; }
-  .info__intro { margin-bottom: 2.7rem; }
   .info__details { grid-template-columns: 1fr; gap: 2rem; }
-  .info h3 { font-size: .86rem; }
+  .paper-note--hours { max-width: 31rem; }
+  .paper-note--contact { max-width: 32rem; }
   .map-section { padding-top: 0; padding-bottom: 4rem; }
-  .map-section__head { display: block; }
+  .map-section__head { display: block; text-align: center; }
+  .map-section__head .eyebrow { text-align: left; }
   .map-frame { height: 340px; }
 
   .site-footer .wrap { display: flex; flex-direction: column; align-items: center; text-align: center; }
@@ -799,11 +803,10 @@ h3 { font-size: 2rem; }
 	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="currentColor"><path d="M7.75 2.5C7.75 2.08579 7.41421 1.75 7 1.75C6.58579 1.75 6.25 2.08579 6.25 2.5V4.07926C4.81067 4.19451 3.86577 4.47737 3.17157 5.17157C2.47737 5.86577 2.19451 6.81067 2.07926 8.25H21.9207C21.8055 6.81067 21.5226 5.86577 20.8284 5.17157C20.1342 4.47737 19.1893 4.19451 17.75 4.07926V2.5C17.75 2.08579 17.4142 1.75 17 1.75C16.5858 1.75 16.25 2.08579 16.25 2.5V4.0129C15.5847 4 14.839 4 14 4H10C9.16097 4 8.41527 4 7.75 4.0129V2.5Z"/><path fill-rule="evenodd" d="M2 12C2 11.161 2 10.4153 2.0129 9.75H21.9871C22 10.4153 22 11.161 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12ZM17 14C17.5523 14 18 13.5523 18 13C18 12.4477 17.5523 12 17 12C16.4477 12 16 12.4477 16 13C16 13.5523 16.4477 14 17 14ZM17 18C17.5523 18 18 17.5523 18 17C18 16.4477 17.5523 16 17 16C16.4477 16 16 16.4477 16 17C16 17.5523 16.4477 18 17 18ZM13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13ZM13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17ZM7 14C7.55228 14 8 13.5523 8 13C8 12.4477 7.55228 12 7 12C6.44772 12 6 12.4477 6 13C6 13.5523 6.44772 14 7 14ZM7 18C7.55228 18 8 17.5523 8 17C8 16.4477 7.55228 16 7 16C6.44772 16 6 16.4477 6 17C6 17.5523 6.44772 18 7 18Z" clip-rule="evenodd"/></g></svg>
 	</a><a class="text-link text-link--light" href="tel:+33982684417">09 82 68 44 17</a></div></div><div class="reserve-band__checker" aria-hidden="true"></div></section>
 
-    <section class="map-section wrap reveal" style="padding-top:5%;" aria-labelledby="map-title"><div class="map-section__head"><p class="eyebrow">Le point de départ</p><h2 id="map-title">121, rue de Vern.</h2></div><div class="map-frame"><iframe title="Carte interactive : La Kermesse, 121 Rue de Vern, Rennes" src="https://www.google.com/maps?q=121+Rue+de+Vern,+35200+Rennes,+France&amp;z=15&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div></section>
+    <section class="map-section wrap reveal" style="padding-top:5%;" aria-labelledby="map-title"><div class="map-section__head"><p class="eyebrow">Le point de départ</p><h2 id="map-title">Rendez-vous au 121, rue de Vern.</h2></div><div class="map-frame"><iframe title="Carte interactive : La Kermesse, 121 Rue de Vern, Rennes" src="https://www.google.com/maps?q=121+Rue+de+Vern,+35200+Rennes,+France&amp;z=15&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div></section>
 
-    <section id="infos" class="info section wrap" aria-labelledby="info-title">
-      <div class="info__intro reveal"><p class="eyebrow">Venir à La Kermesse</p><h2 id="info-title">On se retrouve<br>rue de Vern.</h2></div>
-      <div class="info__details reveal"><div><h3>Nous trouver</h3><address>121 Rue de Vern<br>35200 Rennes</address><a class="text-link" href="https://www.google.com/maps/search/?api=1&query=121+Rue+de+Vern,+35200+Rennes,+France" target="_blank" rel="noopener">Ouvrir dans Google Maps <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="square" stroke-width="2" d="M8.272 8h7.778v7.778m-.88-6.899l-7.146 7.147"/></svg></a></div><div><h3>Nous contacter</h3><a class="info-link info-link--icon" href="tel:+33982684417"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.1 2.8 4.8 5.1c-.8.8-.8 2.2-.1 3.1 3.2 4.5 6.9 8.2 11.4 11.4.9.7 2.3.7 3.1-.1l2.3-2.3-3.4-3.4-2.2 1.6c-1.8-1.1-3.3-2.6-4.4-4.4l1.6-2.2-3.5-4z"/></svg><span>09 82 68 44 17</span></a><a class="info-link info-link--icon" href="https://www.instagram.com/la_kermesse_rennes/?hl=fr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1"/></svg><span>@la_kermesse_rennes <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="square" stroke-width="2" d="M8.272 8h7.778v7.778m-.88-6.899l-7.146 7.147"/></svg></span></a></div><div class="hours"><h3>Horaires restaurant</h3><p>Lun–mer · 09h–00h<br>Jeu–ven · 09h–01h<br>Sam · 17h–01h<br>Dim · Fermé</p><h3>Service cuisine</h3><p>Lun–mer · 12h–13h30 &amp; 18h30–21h30<br>Jeu–ven · 12h–13h30 &amp; 18h30–22h30<br>Sam · 18h30–22h30<br>Dim · Fermé</p></div></div>
+    <section id="infos" class="info section wrap" aria-label="Informations pratiques">
+      <div class="info__details reveal"><div class="paper-note paper-note--hours"><img src="assets/images/horaires-restaurant-paper.png" alt="Horaires restaurant : lundi à mercredi, 09h à 00h ; jeudi à vendredi, 09h à 01h ; samedi, 17h à 01h ; dimanche, fermé."></div><div class="paper-note paper-note--contact contact-paper"><img src="assets/images/contact-paper.png" alt="Nous contacter : 09 82 68 44 17 et Instagram @la_kermesse_rennes."><a class="contact-hotspot contact-hotspot--phone" href="tel:+33982684417" aria-label="Appeler La Kermesse au 09 82 68 44 17"></a><a class="contact-hotspot contact-hotspot--instagram" href="https://www.instagram.com/la_kermesse_rennes/" target="_blank" rel="noopener" aria-label="Ouvrir Instagram de La Kermesse"></a></div></div>
     </section>
 
   </main>

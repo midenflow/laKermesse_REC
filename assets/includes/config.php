@@ -20,17 +20,17 @@ $copyright = "<!--\n"
 ####======= SMTP (Gmail)
 define('SMTP_HOST',   'smtp.gmail.com');
 define('SMTP_PORT',   587);
-define('SMTP_USER',   'midenflow.team@gmail.com');
-define('SMTP_PASS',   'zwwmtmothifplurf');
+define('SMTP_USER',   'AAAAAAAAAAAAAAAA@gmail.com');
+define('SMTP_PASS',   '------------------------');
 define('SMTP_SECURE', 'tls');                        // tls (587) or ssl (465)
 
 // ============================================
 // Email addresses — Tables
 // ============================================
-define('RESTAURANT_EMAIL', 'midenflow.team@gmail.com');
+define('RESTAURANT_EMAIL', 'AAAAAAAAAAAAAAAA@gmail.com');
 define('RESTAURANT_NAME',  'La Kermesse');
 
-define('FROM_EMAIL',       'midenflow.team@gmail.com');
+define('FROM_EMAIL',       'AAAAAAAAAAAAAAAA@gmail.com');
 define('FROM_NAME',        'La Kermesse Réservation');
 
 // ============================================

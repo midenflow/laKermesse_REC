@@ -482,6 +482,27 @@ if (defined('DEMO_MODE') && DEMO_MODE) {
     ]);
 }
 
+// ---------- Log to n8n (fire-and-forget) ----------
+sendToN8n([
+    'type'           => 'event',
+    'reference'      => $reference,
+    'eventType'      => $eventType,            // ← real value for events
+    'date'           => $eventDate,
+    'datePretty'     => $dateElegant,
+    'time'           => $eventTime,
+    'timePretty'     => $timeElegant,
+    'partySize'      => $partySize,
+    'location'       => $locationLabel,
+    'firstName'      => $firstName,
+    'lastName'       => $lastName,
+    'email'          => $email,
+    'phone'          => $phone,
+    'message'        => $message,
+    'hasAllergy'     => 'no',                  // ← always present, "no" for events
+    'allergyDetails' => '',                    // ← always present, empty for events
+    'timestamp'      => date('c'),
+]);
+
 // ============================================================
 // SEND
 // ============================================================

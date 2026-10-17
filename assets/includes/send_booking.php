@@ -515,6 +515,27 @@ if (DEMO_MODE) {
     ]);
 }
 
+// ---------- Log to n8n (fire-and-forget) ----------
+sendToN8n([
+    'type'           => 'table',
+    'reference'      => $reference,
+    'eventType'      => '',                    // ← always present, empty for tables
+    'date'           => $date,
+    'datePretty'     => $dateElegant,          // ← new: "Samedi 17 octobre 2026"
+    'time'           => $time,
+    'timePretty'     => $timeElegant,          // ← new: "23h00"
+    'partySize'      => $partySize,
+    'location'       => $locationLabel,
+    'firstName'      => $firstName,
+    'lastName'       => $lastName,
+    'email'          => $email,
+    'phone'          => $phone,
+    'message'        => $message,
+    'hasAllergy'     => $hasAllergy,           // "yes" / "no"
+    'allergyDetails' => $allergyDetails,
+    'timestamp'      => date('c'),
+]);
+
 // ============================================================
 // SEND
 // ============================================================
@@ -551,3 +572,4 @@ try {
         'message' => "L'envoi a échoué. Veuillez réessayer ou nous appeler.",
     ], 500);
 }
+
